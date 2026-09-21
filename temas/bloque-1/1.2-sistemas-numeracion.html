@@ -56,6 +56,12 @@
     .brand { min-width: 180px; }
     .brand strong { display: block; font-size: .95rem; }
     .brand span { color: var(--muted); font-size: .78rem; }
+    .course-home-link {
+      color: var(--cyan-dark); text-decoration: none; white-space: nowrap;
+      padding: .42rem .62rem; border: 1px solid var(--line); border-radius: 4px;
+      font-size: .8rem; font-weight: 750;
+    }
+    .course-home-link:hover { background: var(--soft); }
     nav { display: flex; gap: .25rem; overflow-x: auto; scrollbar-width: thin; flex: 1; }
     nav a {
       color: var(--ink); text-decoration: none; white-space: nowrap;
@@ -240,7 +246,7 @@
   <a class="skip-link" href="#inicio">Ir al contenido</a>
   <header>
     <div class="header-inner">
-      <div class="brand"><strong>Sistemas Digitales</strong><span>Bloque 1 · Tema 1.2</span></div>
+      <div class="brand"><strong>Sistemas Digitales</strong><span>Bloque 1 · Tema 1.2</span></div><a class="course-home-link" href="../../index.html" aria-label="Volver al índice principal de la asignatura">← Asignatura</a>
       <nav aria-label="Secciones del tema">
         <a href="#inicio">Inicio</a><a href="#posicionales">Bases</a><a href="#conversion">Conversión</a><a href="#atajos">Octal y hexadecimal</a><a href="#aplicar">Aplicaciones</a><a href="#comprobar">Comprobación</a>
       </nav>
