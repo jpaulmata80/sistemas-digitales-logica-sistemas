@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Jean Paul Mata Quevedo">
+  <meta name="copyright" content="Jean Paul Mata Quevedo">
+  <meta name="description" content="Material educativo interactivo de Sistemas Digitales: Lógica y Sistemas.">
+  <title>Sistemas Digitales: Lógica y Sistemas</title>
+  <style>
+    :root { color-scheme: light dark; font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: #f8fafc; color: #0f172a; }
+    header { background: #0f172a; color: #f8fafc; }
+    .wrap { width: min(1080px, calc(100% - 32px)); margin: 0 auto; }
+    header .wrap { padding: 64px 0 54px; }
+    .eyebrow { color: #93c5fd; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: .8rem; }
+    h1 { max-width: 820px; margin: .55rem 0 1rem; font-size: clamp(2rem, 5vw, 4rem); line-height: 1.05; }
+    header p { max-width: 700px; color: #cbd5e1; line-height: 1.65; }
+    main.wrap { padding: 42px 0 56px; }
+    .blocks { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 20px; }
+    .block { border: 1px solid #cbd5e1; border-radius: 18px; padding: 24px; background: #fff; }
+    .block small { color: #2563eb; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; }
+    .block h2 { margin: .55rem 0 .8rem; }
+    .block p { color: #475569; line-height: 1.55; }
+    .pending { display: inline-block; margin-top: .6rem; padding: .42rem .68rem; border-radius: 999px; background: #e2e8f0; color: #334155; font-size: .82rem; font-weight: 700; }
+    footer { padding: 22px 0 32px; color: #64748b; font-size: .9rem; border-top: 1px solid #e2e8f0; }
+    @media (prefers-color-scheme: dark) {
+      body { background: #020617; color: #e2e8f0; }
+      .block { background: #0f172a; border-color: #334155; }
+      .block p { color: #cbd5e1; }
+      .pending { background: #1e293b; color: #cbd5e1; }
+      footer { border-color: #334155; color: #94a3b8; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="eyebrow">Material educativo interactivo</div>
+      <h1>Sistemas Digitales: Lógica y Sistemas</h1>
+      <p>Acceso organizado a los contenidos interactivos de la asignatura. Cada tema se publica como un recurso HTML autónomo.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="blocks" aria-label="Bloques de la asignatura">
+      <article class="block">
+        <small>Bloque 1</small>
+        <h2>Contenidos del Bloque 1</h2>
+        <p>Los temas interactivos se incorporarán progresivamente conforme avance el desarrollo de la asignatura.</p>
+        <span class="pending">En preparación</span>
+      </article>
+
+      <article class="block">
+        <small>Bloque 2</small>
+        <h2>Contenidos del Bloque 2</h2>
+        <p>Los temas interactivos se incorporarán progresivamente conforme avance el desarrollo de la asignatura.</p>
+        <span class="pending">En preparación</span>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">© 2026 Jean Paul Mata Quevedo · Material educativo universitario.</div>
+  </footer>
+</body>
+</html>
