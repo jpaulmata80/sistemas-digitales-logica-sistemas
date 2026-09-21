@@ -50,6 +50,12 @@
     .brand { min-width: 180px; }
     .brand strong { display: block; font-size: .95rem; }
     .brand span { color: var(--muted); font-size: .78rem; }
+    .course-home-link {
+      color: var(--cyan-dark); text-decoration: none; white-space: nowrap;
+      padding: .42rem .62rem; border: 1px solid var(--line); border-radius: 4px;
+      font-size: .8rem; font-weight: 750;
+    }
+    .course-home-link:hover { background: var(--soft); }
     nav { display: flex; gap: .25rem; overflow-x: auto; scrollbar-width: thin; flex: 1; }
     nav a {
       color: var(--ink); text-decoration: none; white-space: nowrap;
@@ -331,7 +337,7 @@
     @media(max-width:820px){.system-compare,.storage-grid{grid-template-columns:1fr}.ff-types{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media(max-width:560px){.ff-layout,.validity-row{grid-template-columns:1fr}.ff-types{grid-template-columns:1fr}.choice-group{display:grid;grid-template-columns:1fr}.choice-group label{white-space:normal}}
 </style></head>
-<body><a class="skip-link" href="#inicio">Ir al contenido</a><header><div class="header-inner"><div class="brand"><strong>Sistemas Digitales</strong><span>Bloque 2 · Tema 2.1</span></div><nav aria-label="Secciones del tema"><a href="#inicio">Inicio</a><a href="#diferencia">Estado</a><a href="#reloj">Reloj</a><a href="#flipflops">Flip-flops</a><a href="#registros">Registros y contadores</a><a href="#comprobar">Comprobación</a></nav><div class="progress-wrap"><label for="courseProgress">Progreso <span id="progressText">0%</span></label><progress id="courseProgress" max="6" value="0"></progress></div></div></header>
+<body><a class="skip-link" href="#inicio">Ir al contenido</a><header><div class="header-inner"><div class="brand"><strong>Sistemas Digitales</strong><span>Bloque 2 · Tema 2.1</span></div><a class="course-home-link" href="../../index.html" aria-label="Volver al índice principal de la asignatura">← Asignatura</a><nav aria-label="Secciones del tema"><a href="#inicio">Inicio</a><a href="#diferencia">Estado</a><a href="#reloj">Reloj</a><a href="#flipflops">Flip-flops</a><a href="#registros">Registros y contadores</a><a href="#comprobar">Comprobación</a></nav><div class="progress-wrap"><label for="courseProgress">Progreso <span id="progressText">0%</span></label><progress id="courseProgress" max="6" value="0"></progress></div></div></header>
 <main>
   <section class="hero" id="inicio" data-step="1"><div class="hero-grid"><div><div class="eyebrow">Bloque 2 · Tema 2.1 · Nivel inicial</div><h1>Sistemas secuenciales y memoria digital</h1><p>Descubre cómo un circuito puede recordar información, actualizarla mediante un reloj y utilizarla para registrar eventos o seguir una secuencia.</p><div class="hero-actions"><a class="btn" href="#diferencia">Comenzar</a><button class="btn secondary" id="pauseScope" type="button">Pausar señales</button></div></div><div class="scope"><canvas id="scopeCanvas" width="760" height="430" role="img" aria-label="Señales de reloj, entrada D y salida almacenada Q"></canvas><div class="scope-status"><span>D cambia con el tiempo</span><span>Q conserva el valor capturado</span></div></div></div></section>
   <section aria-labelledby="orientacion-title"><div class="band"><div class="section-head"><div class="section-code">ORIENTACIÓN</div><div><h2 id="orientacion-title">Cómo trabajar este tema</h2><p class="lead">Compara sistemas con y sin memoria; después controla manualmente el reloj, un registro y un contador.</p></div></div><div class="outcomes"><div class="outcome"><b>Distinguir</b>Lógica combinacional y secuencial.</div><div class="outcome"><b>Interpretar</b>Estado, memoria y reloj.</div><div class="outcome"><b>Experimentar</b>Con un flip-flop como almacenamiento.</div><div class="outcome"><b>Relacionar</b>Registros y contadores con aplicaciones reales.</div></div><p><strong>Conocimiento previo:</strong> variables booleanas, tablas de verdad y compuertas lógicas.</p></div></section>
