@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Tema interactivo 2.4: Integración y aplicación de sistemas digitales"><title>Tema 2.4 | Integración y aplicación de sistemas digitales</title><style>
+    :root {
+      --ink: #18212a;
+      --muted: #586775;
+      --line: #cbd5dc;
+      --soft: #f3f6f8;
+      --paper: #ffffff;
+      --cyan: #007c91;
+      --cyan-dark: #005b6a;
+      --green: #16734a;
+      --green-soft: #e8f5ee;
+      --amber: #9a5d00;
+      --amber-soft: #fff3d8;
+      --red: #a13c35;
+      --red-soft: #fdecea;
+      --focus: #005fcc;
+      --max: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 280px;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+    button, input, textarea { font: inherit; }
+    button, input[type="range"], input[type="radio"], input[type="checkbox"] { cursor: pointer; }
+    button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+    .skip-link {
+      position: fixed; left: 1rem; top: -5rem; z-index: 100;
+      padding: .7rem 1rem; background: var(--ink); color: white;
+    }
+    .skip-link:focus { top: 1rem; }
+    header {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(255,255,255,.97); border-bottom: 1px solid var(--line);
+    }
+    .header-inner {
+      max-width: var(--max); margin: 0 auto; min-height: 64px;
+      padding: .55rem 1.25rem; display: flex; gap: 1.25rem; align-items: center;
+    }
+    .brand { min-width: 180px; }
+    .brand strong { display: block; font-size: .95rem; }
+    .brand span { color: var(--muted); font-size: .78rem; }
+    nav { display: flex; gap: .25rem; overflow-x: auto; scrollbar-width: thin; flex: 1; }
+    nav a {
+      color: var(--ink); text-decoration: none; white-space: nowrap;
+      padding: .45rem .65rem; border-bottom: 2px solid transparent; font-size: .86rem;
+    }
+    nav a:hover, nav a[aria-current="location"] { color: var(--cyan-dark); border-color: var(--cyan); }
+    .progress-wrap { width: 150px; }
+    .progress-wrap label { display: block; font-size: .72rem; color: var(--muted); }
+    progress { width: 100%; height: 8px; accent-color: var(--cyan); }
+    main { overflow: hidden; }
+    section { scroll-margin-top: 82px; border-bottom: 1px solid var(--line); }
+    .band { max-width: var(--max); margin: 0 auto; padding: 4.5rem 1.25rem; }
+    .hero { min-height: calc(100svh - 64px); display: grid; align-items: center; background: #10212a; color: white; }
+    .hero-grid { max-width: var(--max); margin: 0 auto; padding: 3.5rem 1.25rem; width: 100%; display: grid; grid-template-columns: .9fr 1.35fr; gap: 3.5rem; align-items: center; }
+    .eyebrow { color: #6ed2e2; font-size: .82rem; font-weight: 750; text-transform: uppercase; letter-spacing: .08em; }
+    h1 { font-size: clamp(2.35rem, 5vw, 4.8rem); line-height: .98; letter-spacing: 0; margin: .65rem 0 1.15rem; max-width: 10ch; }
+    h2 { font-size: clamp(1.75rem, 3.3vw, 2.8rem); line-height: 1.12; letter-spacing: 0; margin: 0 0 .8rem; }
+    h3 { font-size: 1.25rem; letter-spacing: 0; margin: 1.8rem 0 .55rem; }
+    p { max-width: 72ch; }
+    .hero p { color: #d7e5ea; font-size: 1.1rem; }
+    .hero-actions { display: flex; gap: .7rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    .btn {
+      border: 1px solid var(--cyan-dark); background: var(--cyan); color: white;
+      padding: .7rem 1rem; border-radius: 5px; font-weight: 700;
+    }
+    .btn:hover { background: var(--cyan-dark); }
+    .btn.secondary { background: transparent; color: inherit; border-color: currentColor; }
+    .btn.secondary:hover { background: rgba(255,255,255,.1); }
+    .btn.small { padding: .45rem .7rem; font-size: .88rem; }
+    .scope { position: relative; }
+    .scope canvas { width: 100%; height: auto; display: block; background: #07141a; border: 1px solid #3b5965; border-radius: 6px; }
+    .scope-status { display: flex; justify-content: space-between; gap: 1rem; margin-top: .55rem; font-size: .8rem; color: #b8cbd2; }
+    .section-head { display: grid; grid-template-columns: 160px 1fr; gap: 1.5rem; align-items: start; margin-bottom: 2.5rem; }
+    .section-code { color: var(--cyan-dark); font-weight: 800; font-size: .9rem; }
+    .lead { font-size: 1.08rem; color: var(--muted); margin-top: .3rem; }
+    .outcomes { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .outcome { padding: 1.2rem; border-right: 1px solid var(--line); }
+    .outcome:last-child { border-right: 0; }
+    .outcome b { display: block; color: var(--cyan-dark); margin-bottom: .35rem; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+    .hero-grid > *, .two-col > *, .section-head > *, .level-workspace > *, .case-layout > * { min-width: 0; }
+    .concept-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+    .concept-list li { padding: 1rem 0; border-bottom: 1px solid var(--line); }
+    .concept-list strong { display: block; margin-bottom: .25rem; }
+    .activity { margin-top: 2rem; padding: 1.4rem; border: 1px solid var(--line); border-radius: 6px; background: var(--soft); }
+    .activity h3 { margin-top: 0; }
+    .activity-instruction { color: var(--muted); margin-top: 0; }
+    .scenario-list { display: grid; gap: .65rem; margin: 1rem 0; }
+    .scenario { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center; padding: .8rem; background: white; border: 1px solid var(--line); border-radius: 5px; }
+    .choice-group { display: flex; gap: .4rem; }
+    .choice-group label { padding: .35rem .55rem; border: 1px solid var(--line); border-radius: 4px; white-space: nowrap; }
+    .choice-group input { margin-right: .3rem; }
+    .feedback { margin-top: .85rem; padding: .8rem 1rem; border-left: 4px solid var(--cyan); background: white; min-height: 3rem; }
+    .feedback.success { background: var(--green-soft); border-color: var(--green); }
+    .feedback.warn { background: var(--amber-soft); border-color: var(--amber); }
+    .feedback.error { background: var(--red-soft); border-color: var(--red); }
+    .action-row { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: .9rem; }
+    .hidden { display: none !important; }
+    .level-workspace { display: grid; grid-template-columns: 1.3fr .9fr; gap: 2rem; align-items: stretch; }
+    .voltage-panel { background: #10212a; color: white; padding: 1.4rem; border-radius: 6px; }
+    .voltage-readout { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+    .voltage-value { font-size: 2.5rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .meter { height: 260px; display: grid; grid-template-columns: 48px 1fr; gap: 1rem; margin: 1rem 0; }
+    .meter-track { position: relative; border: 1px solid #60808d; background: #0a171d; }
+    .zone { position: absolute; left: 0; right: 0; }
+    .zone.high { top: 0; height: 39.4%; background: rgba(22,115,74,.6); }
+    .zone.undef { top: 39.4%; height: 36.4%; background: rgba(154,93,0,.65); }
+    .zone.low { bottom: 0; height: 24.2%; background: rgba(0,124,145,.65); }
+    .needle { position: absolute; left: -7px; right: -7px; height: 3px; background: white; box-shadow: 0 0 0 1px #07141a; }
+    .meter-labels { display: flex; flex-direction: column; justify-content: space-between; font-size: .78rem; color: #c9d8dd; text-align: right; }
+    input[type="range"] { width: 100%; accent-color: #6ed2e2; }
+    .state-result { font-weight: 800; color: #6ed2e2; }
+    .warning { color: #ffe0a3; font-size: .88rem; }
+    .bit-console { background: #10212a; color: white; padding: 1.4rem; border-radius: 6px; }
+    .formula-box { display: grid; place-items: center; min-height: 160px; margin: 1rem 0; padding: 1.2rem; border-radius: 6px; background: #10212a; color: white; text-align: center; }
+    .formula-box math { font-size: clamp(2.2rem, 6vw, 3.8rem); font-family: "Cambria Math", "STIX Two Math", "Times New Roman", serif; }
+    .formula-box small { color: #c9d8dd; }
+    .bit-picker { display: flex; flex-wrap: wrap; gap: .45rem; margin: .8rem 0; }
+    .bit-picker button[aria-pressed="true"] { background: var(--green); border-color: var(--green); }
+    .combination-total { color: var(--cyan-dark); font-size: 2rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .combination-preview { max-height: 150px; margin-top: .8rem; padding: .75rem; overflow: auto; border: 1px solid var(--line); border-radius: 5px; background: white; font: 700 .88rem/1.7 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+    .short-answer { width: min(100%, 250px); min-height: 42px; padding: .55rem .7rem; border: 1px solid var(--line); border-radius: 5px; }
+    .sensor-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .65rem; margin: 1rem 0; }
+    .sensor-toggle { border: 1px solid #56717c; background: #172f3a; color: white; padding: .8rem .45rem; border-radius: 5px; min-height: 86px; }
+    .sensor-toggle[aria-pressed="true"] { background: var(--green); border-color: #8bd4af; }
+    .bitstream { font: 800 2.2rem ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .25em; color: #7ce6d2; margin: .7rem 0; }
+    .mapping { color: #c9d8dd; font-size: .85rem; }
+    .case-layout { display: grid; grid-template-columns: .9fr 1.2fr; gap: 2.5rem; }
+    .site-diagram { position: relative; min-height: 360px; background: #e8eff2; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+    .tower { position: absolute; bottom: 35px; left: 50%; width: 8px; height: 230px; background: #475966; transform: translateX(-50%); }
+    .tower::before, .tower::after { content: ""; position: absolute; left: 50%; width: 150px; height: 2px; background: #647986; transform-origin: center; }
+    .tower::before { top: 75px; transform: translateX(-50%) rotate(54deg); }
+    .tower::after { top: 75px; transform: translateX(-50%) rotate(-54deg); }
+    .dish { position: absolute; top: 80px; left: calc(50% + 5px); width: 70px; height: 34px; border: 5px solid var(--cyan); border-left: 0; border-radius: 0 80px 80px 0; transform: rotate(-15deg); }
+    .cabinet { position: absolute; bottom: 35px; left: 12%; width: 100px; height: 128px; background: white; border: 4px solid #475966; }
+    .cabinet::before { content: "EQUIPO"; position: absolute; inset: 10px; border: 1px solid var(--line); padding-top: 36px; text-align: center; font-size: .75rem; color: var(--muted); }
+    .signal-dot { position: absolute; width: 13px; height: 13px; border-radius: 50%; background: var(--cyan); animation: pulse 1.7s infinite; }
+    .dot1 { left: 27%; bottom: 145px; } .dot2 { left: 45%; bottom: 245px; animation-delay: .4s; } .dot3 { right: 18%; top: 86px; animation-delay: .8s; }
+    @keyframes pulse { 50% { transform: scale(1.8); opacity: .35; } }
+    .decision-options { display: grid; gap: .65rem; margin-top: 1rem; }
+    .decision-options label { display: block; padding: .75rem; border: 1px solid var(--line); border-radius: 5px; }
+    .quiz { display: grid; gap: 1.25rem; }
+    .question { padding: 1.1rem; border-top: 1px solid var(--line); }
+    .question:first-child { border-top: 0; }
+    .question fieldset { border: 0; padding: 0; margin: 0; }
+    .question legend { font-weight: 750; margin-bottom: .65rem; }
+    .question label { display: block; padding: .35rem 0; }
+    .quiz-score { font-size: 1.35rem; font-weight: 800; }
+    textarea { width: 100%; min-height: 140px; border: 1px solid var(--line); border-radius: 5px; padding: .8rem; resize: vertical; }
+    .reference-list { padding-left: 1.2rem; }
+    .reference-list li { margin-bottom: .7rem; }
+    a { color: var(--cyan-dark); }
+    footer { background: #10212a; color: #c9d8dd; }
+    footer .band { padding-top: 2rem; padding-bottom: 2rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    @media (max-width: 820px) {
+      section { scroll-margin-top: 130px; }
+      .header-inner { align-items: flex-start; flex-wrap: wrap; gap: .4rem; }
+      .brand { min-width: 130px; }
+      nav { order: 3; flex-basis: 100%; }
+      .progress-wrap { margin-left: auto; }
+      .hero { min-height: auto; }
+      .hero-grid, .two-col, .section-head, .level-workspace, .case-layout { grid-template-columns: 1fr; }
+      .hero-grid { padding-top: 2.6rem; gap: 2rem; }
+      .outcomes { grid-template-columns: 1fr 1fr; }
+      .outcome:nth-child(2) { border-right: 0; }
+      .outcome:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .scenario { grid-template-columns: 1fr; }
+      .sensor-grid { grid-template-columns: 1fr 1fr; }
+      .band { padding-top: 3.2rem; padding-bottom: 3.2rem; }
+    }
+    @media (max-width: 480px) {
+      .progress-wrap { width: 112px; }
+      .outcomes { grid-template-columns: 1fr; }
+      .outcome { border-right: 0; border-bottom: 1px solid var(--line); }
+      .outcome:last-child { border-bottom: 0; }
+      .choice-group { flex-direction: column; align-items: flex-start; }
+      .sensor-grid { grid-template-columns: 1fr; }
+      .bitstream { font-size: 1.7rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .signal-dot { animation: none; }
+    }
+  
+    .number-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .7rem; margin: 1rem 0; }
+    .number-card { min-width: 0; padding: 1rem; border: 1px solid var(--line); border-radius: 6px; background: white; text-align: center; }
+    .number-card b { display: block; color: var(--cyan-dark); font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; }
+    .number-card output { display: block; margin-top: .35rem; font: 800 clamp(1.2rem, 3vw, 1.7rem) ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+    .equation-box { margin: 1rem 0; padding: 1.2rem; border-radius: 6px; background: #10212a; color: white; text-align: center; overflow-x: auto; }
+    .equation-box math { font-size: clamp(1.35rem, 3.5vw, 2.2rem); font-family: "Cambria Math", "STIX Two Math", "Times New Roman", serif; }
+    .table-wrap { width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; }
+    table { width: 100%; min-width: 540px; border-collapse: collapse; background: white; }
+    th, td { padding: .72rem .8rem; border-bottom: 1px solid var(--line); text-align: left; }
+    th { background: #e8eff2; color: var(--cyan-dark); }
+    tr:last-child td { border-bottom: 0; }
+    .number-control { width: min(100%, 260px); min-height: 42px; padding: .55rem .7rem; border: 1px solid var(--line); border-radius: 5px; }
+    .bit-builder { padding: 1.4rem; border-radius: 6px; background: #10212a; color: white; }
+    .bit-buttons, .weight-labels { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: .35rem; }
+    .bit-button { min-width: 0; min-height: 48px; padding: .35rem; border: 1px solid #56717c; border-radius: 5px; background: #172f3a; color: white; font-weight: 800; }
+    .bit-button[aria-pressed="true"] { background: var(--green); border-color: #8bd4af; }
+    .weight-labels { margin-top: .35rem; color: #c9d8dd; font-size: .69rem; text-align: center; }
+    .builder-result { margin-top: 1rem; color: #7ce6d2; font: 800 clamp(1.4rem, 4vw, 2rem) ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+    .conversion-steps { margin-top: 1rem; padding: .8rem; border-left: 4px solid var(--cyan); background: white; font: 650 .92rem/1.7 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; }
+    .group-display { margin: 1rem 0; padding: 1rem; border-radius: 6px; background: #10212a; color: #7ce6d2; font: 800 clamp(1.25rem, 4vw, 2rem) ui-monospace, SFMono-Regular, Menlo, monospace; text-align: center; overflow-wrap: anywhere; }
+    .validity-list { display: grid; gap: .65rem; margin: 1rem 0; }
+    .validity-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem; align-items: center; padding: .8rem; border: 1px solid var(--line); border-radius: 5px; background: white; }
+    .validity-row code { font-size: 1.05rem; font-weight: 800; }
+    .choice-group { flex-wrap: wrap; }
+    @media (max-width: 820px) {
+      .number-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .number-grid { grid-template-columns: 1fr; }
+      .bit-buttons, .weight-labels { gap: .2rem; }
+      .bit-button { min-height: 42px; padding: .2rem; }
+      .weight-labels { font-size: .58rem; }
+      .validity-row { grid-template-columns: 1fr; }
+    }
+
+    .logic-console { padding: 1.4rem; border-radius: 6px; background: #10212a; color: white; }
+    .logic-controls { display: flex; flex-wrap: wrap; gap: .65rem; margin: 1rem 0; }
+    .logic-toggle { min-width: 110px; min-height: 52px; border: 1px solid #56717c; border-radius: 6px; background: #172f3a; color: white; font-weight: 800; }
+    .logic-toggle[aria-pressed="true"] { background: var(--green); border-color: #8bd4af; }
+    .logic-results { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .65rem; margin-top: 1rem; }
+    .logic-result { min-width: 0; padding: .9rem; border: 1px solid #56717c; border-radius: 6px; text-align: center; }
+    .logic-result b { display: block; color: #c9d8dd; font-size: .78rem; }
+    .logic-result output { display: block; color: #7ce6d2; font-size: 2rem; font-weight: 800; }
+    .equation-box { margin: 1rem 0; padding: 1.2rem; border-radius: 6px; background: #10212a; color: white; text-align: center; overflow-x: auto; }
+    .equation-box math { font-size: clamp(1.5rem,4vw,2.5rem); font-family: "Cambria Math","STIX Two Math","Times New Roman",serif; }
+    .table-wrap { width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; }
+    table { width: 100%; min-width: 460px; border-collapse: collapse; background: white; }
+    th,td { padding: .68rem .78rem; border-bottom: 1px solid var(--line); text-align: center; }
+    th { background: #e8eff2; color: var(--cyan-dark); }
+    tr:last-child td { border-bottom: 0; }
+    tr.active-row td { background: #dff5eb; color: var(--green); font-weight: 800; }
+    .logic-lamp { display: grid; place-items: center; width: 92px; height: 92px; margin: 1rem auto; border-radius: 50%; font-size: 2.2rem; font-weight: 800; }
+    .logic-lamp.off { background: #304650; color: #b8cbd2; box-shadow: inset 0 0 0 4px #20343d; }
+    .logic-lamp.on { background: #61d8aa; color: #0b3825; box-shadow: 0 0 24px rgba(97,216,170,.48); }
+    .laws-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .65rem; }
+    .law-card { min-width: 0; padding: 1rem; border: 1px solid var(--line); border-radius: 6px; background: white; }
+    .law-card b { display: block; color: var(--cyan-dark); margin-bottom: .3rem; }
+    .law-card code { font-size: 1.05rem; overflow-wrap: anywhere; }
+    .alarm-controls { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .65rem; margin: 1rem 0; }
+    .sensor-toggle { min-width: 0; }
+    .alarm-state { padding: 1rem; border-radius: 6px; text-align: center; font-weight: 800; }
+    .alarm-off { background: #e8eff2; color: #475966; }
+    .alarm-on { background: var(--red-soft); color: var(--red); border: 1px solid var(--red); }
+    @media(max-width:620px){.logic-results,.alarm-controls,.laws-grid{grid-template-columns:1fr}.logic-toggle{width:100%}}
+
+    .gate-gallery { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.8rem; }
+    .gate-card { min-width:0; padding:1rem; border:1px solid var(--line); border-radius:6px; background:white; text-align:center; }
+    .gate-card svg { width:100%; max-width:150px; height:110px; margin:0 auto .45rem; }
+    .gate-card svg path,.gate-card svg line,.gate-card svg circle { fill:none; stroke:var(--cyan-dark); stroke-width:4; }
+    .gate-card b { display:block; color:var(--cyan-dark); }
+    .gate-card code { overflow-wrap:anywhere; }
+    .gate-explorer { padding:1.4rem; border-radius:6px; background:#10212a; color:white; }
+    .gate-select { display:flex; flex-wrap:wrap; gap:.4rem; margin:1rem 0; }
+    .gate-select button { min-width:72px; min-height:40px; border:1px solid #56717c; border-radius:5px; background:#173f4c; color:white; font-weight:800; }
+    .gate-select button[aria-pressed="true"] { background:var(--green); border-color:#8bd4af; }
+    .gate-stage { display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); gap:1rem; align-items:center; margin:1rem 0; }
+    .gate-block { min-width:120px; padding:1.2rem; border:2px solid #6ed2e2; border-radius:16px; color:white; text-align:center; font-weight:800; }
+    .logic-lamp { display:grid; place-items:center; width:88px; height:88px; border-radius:50%; font-size:2.1rem; font-weight:800; }
+    .logic-lamp.off { background:#304650; color:#b8cbd2; }
+    .logic-lamp.on { background:#61d8aa; color:#0b3825; box-shadow:0 0 24px rgba(97,216,170,.48); }
+    .logic-controls { display:flex; flex-wrap:wrap; gap:.65rem; }
+    .logic-toggle { min-width:100px; min-height:48px; border:1px solid #56717c; border-radius:6px; background:#172f3a; color:white; font-weight:800; }
+    .logic-toggle[aria-pressed="true"] { background:var(--green); border-color:#8bd4af; }
+    .table-wrap { width:100%; overflow-x:auto; border:1px solid var(--line); border-radius:6px; }
+    table { width:100%; min-width:380px; border-collapse:collapse; background:white; }
+    th,td { padding:.68rem .78rem; border-bottom:1px solid var(--line); text-align:center; }
+    th { background:#e8eff2; color:var(--cyan-dark); }
+    tr.active-row td { background:#dff5eb; color:var(--green); font-weight:800; }
+    .circuit-board { padding:1.2rem; border-radius:6px; background:#10212a; color:white; overflow-x:auto; }
+    .circuit-flow { min-width:650px; display:grid; grid-template-columns:120px 90px 90px 90px 90px; gap:.6rem; align-items:center; justify-content:center; margin:1rem 0; }
+    .mini-gate { padding:.8rem .5rem; border:2px solid #6ed2e2; border-radius:12px; text-align:center; font-weight:800; }
+    .signal-line { height:6px; border-radius:4px; background:#506b76; }
+    .signal-line.signal-on { background:#7ce6d2; box-shadow:0 0 10px rgba(124,230,210,.55); }
+    .stage-values { display:flex; justify-content:center; gap:1.5rem; color:#c9d8dd; }
+    .stage-values output { color:#7ce6d2; font-weight:800; }
+    .alarm-state { padding:1rem; border-radius:6px; text-align:center; font-weight:800; }
+    .alarm-off { background:#e8eff2; color:#475966; }
+    .alarm-on { background:var(--red-soft); color:var(--red); border:1px solid var(--red); }
+    .link-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    @media(max-width:820px){.gate-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:560px){.gate-gallery{grid-template-columns:1fr}.gate-stage{grid-template-columns:1fr;text-align:center}.logic-lamp{margin:auto}}
+
+    .system-compare { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+    .system-panel { min-width:0; padding:1.2rem; border:1px solid var(--line); border-radius:6px; background:var(--soft); }
+    .system-panel h3 { margin-top:0; }
+    .system-output { margin-top:1rem; padding:.8rem; border-radius:5px; background:white; color:var(--cyan-dark); font-size:1.35rem; font-weight:800; text-align:center; }
+    .logic-controls { display:flex; flex-wrap:wrap; gap:.6rem; }
+    .logic-toggle { min-width:110px; min-height:48px; border:1px solid var(--line); border-radius:6px; background:white; color:var(--ink); font-weight:800; }
+    .logic-toggle[aria-pressed="true"] { background:var(--green); border-color:var(--green); color:white; }
+    .validity-list { display:grid; gap:.65rem; margin:1rem 0; }
+    .validity-row { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:1rem; align-items:center; padding:.8rem; border:1px solid var(--line); border-radius:5px; background:white; }
+    .choice-group { display:flex; flex-wrap:wrap; gap:.4rem; }
+    .choice-group label { padding:.35rem .55rem; border:1px solid var(--line); border-radius:4px; white-space:nowrap; }
+    .ff-console { padding:1.4rem; border-radius:6px; background:#10212a; color:white; }
+    .ff-layout { display:grid; grid-template-columns:minmax(0,1fr) 150px; gap:1.4rem; align-items:center; }
+    .memory-cell { display:grid; place-items:center; width:110px; height:110px; margin:auto; border-radius:14px; font-size:2.7rem; font-weight:800; }
+    .stored-zero { background:#304650; color:#b8cbd2; }
+    .stored-one { background:#61d8aa; color:#0b3825; box-shadow:0 0 24px rgba(97,216,170,.48); }
+    .event-history { max-height:165px; margin:.8rem 0 0; padding:.7rem .7rem .7rem 1.8rem; overflow:auto; border:1px solid #56717c; border-radius:5px; background:#07171d; color:#c9d8dd; font-size:.86rem; }
+    .event-history li { margin:.25rem 0; }
+    .equation-box { margin:1rem 0; padding:1.1rem; border-radius:6px; background:#10212a; color:white; text-align:center; overflow-x:auto; }
+    .equation-box math { font-size:clamp(1.45rem,4vw,2.4rem); font-family:"Cambria Math","STIX Two Math","Times New Roman",serif; }
+    .ff-types { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.7rem; }
+    .ff-card { min-width:0; padding:1rem; border:1px solid var(--line); border-radius:6px; background:white; }
+    .ff-card b { display:block; color:var(--cyan-dark); margin-bottom:.3rem; }
+    .storage-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+    .storage-console { min-width:0; padding:1.3rem; border-radius:6px; background:#10212a; color:white; }
+    .register-row { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.45rem; margin:1rem 0; }
+    .register-cell { display:grid; place-items:center; min-height:58px; border:1px solid #56717c; border-radius:5px; background:#172f3a; color:white; font-size:1.45rem; font-weight:800; }
+    .register-cell.active-bit { background:var(--green); border-color:#8bd4af; }
+    .counter-readout { color:#7ce6d2; font:800 1.6rem ui-monospace,SFMono-Regular,Menlo,monospace; text-align:center; }
+    .sync-table { width:100%; border-collapse:collapse; }
+    .sync-table th,.sync-table td { padding:.7rem; border-bottom:1px solid var(--line); text-align:left; }
+    .sync-table th { color:var(--cyan-dark); background:#e8eff2; }
+    @media(max-width:820px){.system-compare,.storage-grid{grid-template-columns:1fr}.ff-types{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:560px){.ff-layout,.validity-row{grid-template-columns:1fr}.ff-types{grid-template-columns:1fr}.choice-group{display:grid;grid-template-columns:1fr}.choice-group label{white-space:normal}}
+
+    .signal-chain { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:.5rem; align-items:stretch; margin:1.5rem 0; }
+    .chain-step { position:relative; min-width:0; padding:1rem .55rem; border:1px solid var(--line); border-radius:6px; background:white; text-align:center; }
+    .chain-step:not(:last-child)::after { content:"→"; position:absolute; right:-.55rem; top:50%; z-index:2; color:var(--cyan-dark); font-weight:800; transform:translateY(-50%); }
+    .chain-step b { display:block; color:var(--cyan-dark); }
+    .measure-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.7rem; }
+    .measure { min-width:0; padding:.9rem; border:1px solid var(--line); border-radius:6px; background:white; text-align:center; }
+    .measure b { display:block; color:var(--cyan-dark); font-size:.76rem; text-transform:uppercase; }
+    .measure output { display:block; margin-top:.3rem; font:800 clamp(1.1rem,3vw,1.55rem) ui-monospace,SFMono-Regular,Menlo,monospace; overflow-wrap:anywhere; }
+    .sampling-console,.converter-console { padding:1.35rem; border-radius:6px; background:#10212a; color:white; }
+    .sampling-console canvas { width:100%; height:auto; border:1px solid #456371; border-radius:6px; background:#07141a; }
+    .control-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; margin:1rem 0; }
+    .control-grid label { display:block; color:#c9d8dd; }
+    .control-grid input[type="range"] { width:100%; }
+    .formula-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; margin-top:1rem; }
+    .formula-result { padding:.8rem; border:1px solid #56717c; border-radius:5px; text-align:center; }
+    .formula-result output { display:block; color:#7ce6d2; font-size:1.45rem; font-weight:800; }
+    .equation-box { margin:1rem 0; padding:1.1rem; border-radius:6px; background:#10212a; color:white; text-align:center; overflow-x:auto; }
+    .equation-box math { font-size:clamp(1.35rem,4vw,2.2rem); font-family:"Cambria Math","STIX Two Math","Times New Roman",serif; }
+    .number-control { width:min(100%,260px); min-height:42px; padding:.55rem .7rem; border:1px solid var(--line); border-radius:5px; }
+    .adc-display { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.55rem; margin:1rem 0; }
+    .adc-item { min-width:0; padding:.75rem; border:1px solid #56717c; border-radius:5px; text-align:center; }
+    .adc-item b { display:block; color:#c9d8dd; font-size:.72rem; }
+    .adc-item output { display:block; color:#7ce6d2; font:800 1.15rem ui-monospace,SFMono-Regular,Menlo,monospace; overflow-wrap:anywhere; }
+    .dac-bits { display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:.35rem; margin:1rem 0; }
+    .dac-bit { min-width:0; min-height:48px; border:1px solid #56717c; border-radius:5px; background:#172f3a; color:white; font-weight:800; }
+    .dac-bit[aria-pressed="true"] { background:var(--green); border-color:#8bd4af; }
+    .analog-meter { height:18px; overflow:hidden; border:1px solid #56717c; border-radius:9px; background:#07171d; }
+    .analog-fill { height:100%; width:0; background:linear-gradient(90deg,var(--cyan),#7ce6d2); transition:width .2s ease; }
+    .application-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+    .application-card { min-width:0; padding:1rem; border:1px solid var(--line); border-radius:6px; background:white; }
+    @media(max-width:900px){.signal-chain{grid-template-columns:1fr}.chain-step:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-.85rem;transform:translateX(-50%)}.adc-display{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:620px){.measure-grid,.control-grid,.formula-grid,.application-grid{grid-template-columns:1fr}.dac-bits{gap:.2rem}.dac-bit{min-height:42px;padding:.15rem}.adc-display{grid-template-columns:1fr}}
+
+  .course-back{display:inline-flex;align-items:center;gap:.3rem;font-weight:750;text-decoration:none;white-space:nowrap}.course-back:hover{text-decoration:underline}header .course-back{color:var(--cyan-dark)}footer .course-back{color:white}
+  .timeline-buttons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.6rem;margin:1.4rem 0}.era-button{min-height:76px;padding:.7rem;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);font-weight:750}.era-button.active,.era-button[aria-pressed="true"]{background:var(--cyan-dark);border-color:var(--cyan-dark);color:white}.era-panel{display:grid;grid-template-columns:minmax(170px,.45fr) 1fr;gap:1.2rem;padding:1.3rem;border-radius:6px;background:#10212a;color:white}.era-panel .period{color:#7ce6d2;font-weight:800;text-transform:uppercase;letter-spacing:.05em}.era-key{padding:.9rem;border-left:4px solid #7ce6d2;background:#17343f}
+  .comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.comparison-card{min-width:0;padding:1.2rem;border:1px solid var(--line);border-radius:6px;background:white}.comparison-card h3{margin-top:0}.change-state{display:block;min-height:3.4rem;margin-top:.8rem;padding:.7rem;border-radius:5px;background:#eef6f7;font-weight:700;color:var(--cyan-dark)}
+  .device-table{width:100%;border-collapse:collapse;margin:1rem 0;background:white}.device-table th,.device-table td{padding:.75rem;border:1px solid var(--line);text-align:left;vertical-align:top}.device-table th{background:#10212a;color:white}.device-table tbody th{background:#eaf2f4;color:var(--ink)}
+  .lab-console{padding:1.35rem;border-radius:6px;background:#10212a;color:white}.lab-grid{display:grid;grid-template-columns:minmax(190px,.7fr) minmax(240px,1fr) minmax(170px,.55fr);gap:1rem;align-items:stretch}.io-panel{padding:1rem;border:1px solid #526f7a;border-radius:6px}.io-panel h3{margin-top:0;color:#d9f4f8}.logic-button{width:100%;min-height:48px;margin:.35rem 0;border:1px solid #66838d;border-radius:5px;background:#18343f;color:white;font-weight:800}.logic-button[aria-pressed="true"]{background:#155f49;border-color:#7ce6d2}.logic-select{width:100%;min-height:44px;padding:.55rem;border:1px solid #66838d;border-radius:5px;background:white;color:#10212a}.led-wrap{display:grid;place-items:center;text-align:center}.led{width:84px;height:84px;border:7px solid #45606a;border-radius:50%;background:#263b43;box-shadow:inset 0 0 18px #07141a}.led.on{background:#59e0a7;border-color:#b7ffe1;box-shadow:0 0 30px #59e0a7,inset 0 0 14px white}.state-label{display:block;margin-top:.8rem;font-weight:850;color:#7ce6d2}.code-panel{white-space:pre-wrap;padding:.85rem;border-radius:5px;background:#061217;color:#9fe8d0;font:700 .9rem/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}
+  .implementation-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.55rem;margin:1.2rem 0}.implementation-step{position:relative;padding:1rem .55rem;border:1px solid var(--line);border-radius:6px;background:white;text-align:center}.implementation-step b{display:block;color:var(--cyan-dark)}.implementation-step:not(:last-child)::after{content:"→";position:absolute;right:-.55rem;top:50%;z-index:2;transform:translateY(-50%);color:var(--cyan-dark);font-weight:900}.truth-table{width:100%;border-collapse:collapse}.truth-table th,.truth-table td{padding:.55rem;border:1px solid var(--line);text-align:center}.truth-table th{background:#eaf2f4}.note-box{margin:1rem 0;padding:1rem;border-left:5px solid var(--cyan);background:#eef7f8}.author-line{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem}
+  @media(max-width:900px){.timeline-buttons{grid-template-columns:repeat(2,minmax(0,1fr))}.lab-grid{grid-template-columns:1fr 1fr}.lab-grid .led-wrap{grid-column:1/-1}.implementation-flow{grid-template-columns:1fr 1fr}.implementation-step:nth-child(2)::after{display:none}}
+  @media(max-width:650px){.course-back{width:100%}.timeline-buttons,.comparison,.era-panel,.lab-grid,.implementation-flow{grid-template-columns:1fr}.lab-grid .led-wrap{grid-column:auto}.implementation-step:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-.9rem;transform:translateX(-50%)}.implementation-step:nth-child(2)::after{display:block}.device-table{font-size:.82rem}.device-table th,.device-table td{padding:.45rem}.author-line{display:grid}}
+
+  .io-workbench{padding:1.35rem;border-radius:6px;background:#10212a;color:white}.io-columns{display:grid;grid-template-columns:minmax(200px,.75fr) minmax(250px,1.1fr) minmax(180px,.65fr);gap:1rem}.io-card{min-width:0;padding:1rem;border:1px solid #516f7a;border-radius:6px}.io-card h3{margin-top:0;color:#e7f8fa}.control-button{width:100%;min-height:48px;margin:.35rem 0;border:1px solid #66838d;border-radius:5px;background:#18343f;color:white;font-weight:800}.control-button[aria-pressed="true"]{background:#155f49;border-color:#7ce6d2}.dark-select{width:100%;min-height:44px;padding:.55rem;border:1px solid #66838d;border-radius:5px;background:white;color:#10212a}.logic-readout{display:grid;place-items:center;min-height:150px;text-align:center}.logic-level{display:block;padding:.7rem 1rem;border:2px solid #738c95;border-radius:5px;background:#253940;color:white;font:850 1.3rem ui-monospace,SFMono-Regular,Menlo,monospace}.logic-level.high{border-color:#7ce6d2;background:#155f49}.code-panel{white-space:pre-wrap;padding:.85rem;border-radius:5px;background:#061217;color:#9fe8d0;font:700 .88rem/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}.explain-line{min-height:3rem;color:#bfd1d7}
+  .load-visual{width:92px;height:92px;margin:.5rem auto;border:7px solid #47616b;border-radius:50%;background:#253940;box-shadow:inset 0 0 18px #07141a}.load-visual.led.on{background:#ffe56b;border-color:#fff3ad;box-shadow:0 0 30px #ffe56b,inset 0 0 15px white}.load-visual.buzzer{border-radius:12px}.load-visual.buzzer.on{background:#d97636;border-color:#ffc595;box-shadow:0 0 26px #d97636}.load-visual.relay{border-radius:4px}.load-visual.relay.on{background:#59e0a7;border-color:#b7ffe1;box-shadow:0 0 25px #59e0a7}.state-label{display:block;margin-top:.7rem;text-align:center;font-weight:850;color:#7ce6d2}
+  .signal-map{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.55rem;margin:1.2rem 0}.signal-step{position:relative;padding:1rem .55rem;border:1px solid var(--line);border-radius:6px;background:white;text-align:center}.signal-step b{display:block;color:var(--cyan-dark)}.signal-step:not(:last-child)::after{content:"→";position:absolute;right:-.55rem;top:50%;z-index:2;transform:translateY(-50%);color:var(--cyan-dark);font-weight:900}.metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.55rem;margin:1rem 0}.metric{padding:.75rem;border:1px solid #526f7a;border-radius:5px;text-align:center}.metric b{display:block;color:#bfd1d7;font-size:.74rem;text-transform:uppercase}.metric output{display:block;color:#7ce6d2;font:850 1.25rem ui-monospace,SFMono-Regular,Menlo,monospace}.twin-output{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.indicator{width:76px;height:76px;margin:.5rem auto;border:7px solid #47616b;border-radius:50%;background:#253940;box-shadow:inset 0 0 16px #07141a}.indicator.on{background:#59e0a7;border-color:#b7ffe1;box-shadow:0 0 27px #59e0a7,inset 0 0 12px white}.indicator.alarm.on{background:#ff715b;border-color:#ffc3b9;box-shadow:0 0 28px #ff715b}
+  .design-cycle{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.55rem;margin:1.2rem 0}.cycle-step{padding:.9rem .5rem;border-radius:6px;background:#eaf2f4;text-align:center}.cycle-step b{display:block;color:var(--cyan-dark)}.design-map{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem}.design-map label{padding:.85rem;border:1px solid var(--line);border-radius:6px;background:white}.design-map select{width:100%;margin-top:.4rem;min-height:40px}.test-table{width:100%;border-collapse:collapse;background:white}.test-table th,.test-table td{padding:.55rem;border:1px solid var(--line);text-align:center}.test-table th{background:#eaf2f4}.test-table tr[data-result="pass"]{background:#e2f6ec}.test-table tr[data-result="fail"]{background:#fde7e4}.arduino-code{max-height:360px;overflow:auto;white-space:pre;padding:1rem;border-radius:6px;background:#061217;color:#9fe8d0;font:650 .82rem/1.45 ui-monospace,SFMono-Regular,Menlo,monospace}.safety-note{margin:1rem 0;padding:1rem;border-left:5px solid #e39a45;background:#fff5e9}.author-line{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem}
+  @media(max-width:900px){.io-columns{grid-template-columns:1fr 1fr}.io-columns .logic-readout{grid-column:1/-1}.signal-map{grid-template-columns:1fr 1fr}.signal-step:nth-child(2)::after{display:none}.design-cycle{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:650px){.io-columns,.metric-grid,.twin-output,.signal-map,.design-map,.design-cycle{grid-template-columns:1fr}.io-columns .logic-readout{grid-column:auto}.signal-step:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-.9rem;transform:translateX(-50%)}.signal-step:nth-child(2)::after{display:block}.test-table{font-size:.78rem}.test-table th,.test-table td{padding:.35rem}.author-line{display:grid}}
+</style></head>
+<body><a class="skip-link" href="#inicio">Ir al contenido</a><header><div class="header-inner"><a class="course-back" href="index.html" aria-label="Volver a la página principal de la asignatura">← Asignatura</a><div class="brand"><strong>Sistemas Digitales</strong><span>Bloque 2 · Tema 2.4</span></div><nav aria-label="Secciones del tema"><a href="#inicio">Inicio</a><a href="#entradas">Entradas</a><a href="#salidas">Salidas</a><a href="#integracion">Integración</a><a href="#solucion">Solución</a><a href="#comprobar">Comprobación</a></nav><div class="progress-wrap"><label for="courseProgress">Progreso <span id="progressText">0%</span></label><progress id="courseProgress" max="6" value="0"></progress></div></div></header>
+<main>
+  <section class="hero" id="inicio" data-step="1"><div class="hero-grid"><div><div class="eyebrow">Bloque 2 · Tema 2.4 · Integración práctica</div><h1>Integración y aplicación de sistemas digitales</h1><p>Integra entradas digitales, una medición analógica y salidas de control para construir y verificar una solución digital sencilla.</p><div class="hero-actions"><a class="btn" href="#entradas">Comenzar</a><button class="btn secondary" id="pauseHero" type="button">Pausar visualización</button></div></div><div class="scope"><canvas id="heroCanvas" width="760" height="380" role="img" aria-label="Cadena de adquisición, procesamiento y control de un sistema digital"></canvas><div class="scope-status"><span>Medir</span><span>Procesar</span><span>Actuar</span><span>Verificar</span></div></div></div></section>
+
+  <section aria-labelledby="orientacion-title"><div class="band"><div class="section-head"><div class="section-code">ORIENTACIÓN</div><div><h2 id="orientacion-title">Cómo trabajar este tema</h2><p class="lead">Experimenta primero con cada tipo de señal y termina integrándolas en un sistema de adquisición y control basado en Arduino.</p></div></div><div class="outcomes"><div class="outcome"><b>Leer</b>Estados digitales con una referencia estable.</div><div class="outcome"><b>Controlar</b>Salidas respetando límites eléctricos.</div><div class="outcome"><b>Integrar</b>Información digital y analógica.</div><div class="outcome"><b>Verificar</b>Una solución mediante casos de prueba.</div></div><p><strong>Conocimiento previo:</strong> niveles lógicos, ADC, compuertas, entradas/salidas y microcontroladores.</p></div></section>
+
+  <section id="entradas" data-step="2" aria-labelledby="entradas-title"><div class="band"><div class="section-head"><div class="section-code">2.4.1</div><div><h2 id="entradas-title">Lectura de entradas digitales</h2><p class="lead">Una entrada digital debe recibir un nivel definido. Las resistencias pull-up o pull-down evitan lecturas indeterminadas cuando un contacto está abierto.</p></div></div><div class="io-workbench"><div class="io-columns"><div class="io-card"><h3>Conexión</h3><label for="inputWiring">Referencia del pin</label><select class="dark-select" id="inputWiring"><option value="pullup">Pull-up interna</option><option value="pulldown">Pull-down externa</option><option value="floating">Sin referencia</option></select><button class="control-button" id="pressButton" type="button" aria-pressed="false">Pulsador liberado</button></div><div class="io-card"><h3>Lectura</h3><div class="logic-readout"><output class="logic-level" id="digitalLevel">HIGH (1)</output></div><p class="explain-line" id="inputExplanation"></p></div><div class="io-card"><h3>Programa</h3><pre class="code-panel" id="inputCode"></pre></div></div></div><div class="activity"><h3>Actividad 1 · Predice la lectura</h3><p class="activity-instruction">Con <code>INPUT_PULLUP</code>, el pulsador conecta el pin a GND al presionarlo. ¿Qué valor se lee?</p><div class="decision-options"><label><input type="radio" name="inputAnswer" value="one"> HIGH (1)</label><label><input type="radio" name="inputAnswer" value="zero"> LOW (0)</label></div><div class="action-row"><button class="btn" id="checkInput" type="button">Comprobar</button><button class="btn small hidden" id="hintInput" type="button">Ver pista</button></div><div class="feedback" id="inputFeedback" role="status" aria-live="polite">Predice antes de experimentar con el pulsador.</div></div></div></section>
+
+  <section id="salidas" data-step="3" aria-labelledby="salidas-title"><div class="band"><div class="section-head"><div class="section-code">2.4.2</div><div><h2 id="salidas-title">Control de salidas digitales</h2><p class="lead">Una salida escribe HIGH o LOW para ordenar una acción. El pin controla la señal; una etapa adecuada debe suministrar la potencia que requiera la carga.</p></div></div><div class="io-workbench"><div class="io-columns"><div class="io-card"><h3>Configuración</h3><label for="outputLoad">Carga representada</label><select class="dark-select" id="outputLoad"><option value="led">LED</option><option value="buzzer">Zumbador</option><option value="relay">Relé</option></select><button class="control-button" id="outputToggle" type="button" aria-pressed="false">Escribir HIGH</button><output class="state-label" id="pinState">PIN = LOW</output></div><div class="io-card"><h3>Respuesta</h3><div class="load-visual led" id="loadVisual" role="img" aria-label="Carga controlada por una salida digital"></div><output class="state-label" id="loadState">LED apagado</output></div><div class="io-card"><h3>Programa</h3><pre class="code-panel" id="outputCode"></pre></div></div></div><div class="safety-note"><strong>Seguridad:</strong> un LED necesita limitar corriente y las cargas inductivas o de mayor potencia requieren una interfaz apropiada. Nunca conectes directamente una carga de potencia al pin del microcontrolador.</div><div class="activity"><h3>Actividad 2 · Protege el dispositivo</h3><p class="activity-instruction">Se necesita accionar un relé cuya bobina supera la corriente permitida por el pin. ¿Qué solución corresponde?</p><div class="decision-options"><label><input type="radio" name="outputAnswer" value="direct"> Conectarlo directamente al pin</label><label><input type="radio" name="outputAnswer" value="driver"> Utilizar una etapa de potencia y protección</label></div><div class="action-row"><button class="btn" id="checkOutput" type="button">Comprobar</button><button class="btn small hidden" id="hintOutput" type="button">Ver pista</button></div><div class="feedback" id="outputFeedback" role="status" aria-live="polite">Distingue entre la señal de control y la potencia de la carga.</div></div></div></section>
+
+  <section id="integracion" data-step="4" aria-labelledby="integracion-title"><div class="band"><div class="section-head"><div class="section-code">2.4.3</div><div><h2 id="integracion-title">Integración de señales analógicas y digitales</h2><p class="lead">El programa puede combinar un permiso digital con una medición analógica convertida por el ADC para decidir cómo controlar las salidas.</p></div></div><div class="signal-map"><div class="signal-step"><b>Entrada digital</b>Habilitación</div><div class="signal-step"><b>Entrada analógica</b>Temperatura</div><div class="signal-step"><b>Decisión</b>Comparación y lógica</div><div class="signal-step"><b>Salidas</b>Ventilador y alarma</div></div><div class="io-workbench"><div class="io-columns"><div class="io-card"><h3>Entradas</h3><button class="control-button" id="enableSwitch" type="button" aria-pressed="true">Sistema habilitado (1)</button><label for="temperature">Temperatura: <output id="temperatureValue">55 °C</output></label><input id="temperature" type="range" min="0" max="100" value="55"><label for="threshold">Umbral del ventilador: <output id="thresholdValue">60 °C</output></label><input id="threshold" type="range" min="40" max="80" value="60"></div><div class="io-card"><h3>Procesamiento</h3><div class="metric-grid"><div class="metric"><b>ADC 10 bits</b><output id="adcValue">563</output></div><div class="metric"><b>Comparación</b><output id="conditionValue">T &lt; umbral</output></div><div class="metric"><b>Permiso</b><output>Digital</output></div></div><pre class="code-panel" id="integrationCode"></pre></div><div class="io-card"><h3>Salidas</h3><div class="twin-output"><div><div class="indicator" id="fanLed"></div><output class="state-label" id="fanState">VENTILADOR INACTIVO</output></div><div><div class="indicator alarm" id="alarmLed"></div><output class="state-label" id="alarmState">ALARMA INACTIVA</output></div></div></div></div></div><div class="activity"><h3>Actividad 3 · Analiza las condiciones</h3><p class="activity-instruction">Si la temperatura supera el umbral, pero la habilitación digital vale 0, ¿qué debe ocurrir con el ventilador?</p><div class="decision-options"><label><input type="radio" name="integrationAnswer" value="fanOn"> Debe encenderse</label><label><input type="radio" name="integrationAnswer" value="fanOff"> Debe permanecer apagado</label></div><div class="action-row"><button class="btn" id="checkIntegration" type="button">Comprobar</button><button class="btn small hidden" id="hintIntegration" type="button">Ver pista</button></div><div class="feedback" id="integrationFeedback" role="status" aria-live="polite">Evalúa habilitado AND temperatura alta.</div></div></div></section>
+
+  <section id="solucion" data-step="5" aria-labelledby="solucion-title"><div class="band"><div class="section-head"><div class="section-code">2.4.4</div><div><h2 id="solucion-title">Diseño e implementación de una solución digital sencilla</h2><p class="lead">La solución se construye a partir del problema, se traduce a señales y reglas, se implementa y finalmente se verifica.</p></div></div><div class="design-cycle"><div class="cycle-step"><b>1. Problema</b>Definir necesidad</div><div class="cycle-step"><b>2. Señales</b>Asignar E/S</div><div class="cycle-step"><b>3. Reglas</b>Plantear lógica</div><div class="cycle-step"><b>4. Implementar</b>Conectar y programar</div><div class="cycle-step"><b>5. Verificar</b>Probar casos</div></div><div class="case-layout"><div><h3>Caso profesional · Gabinete de telecomunicaciones</h3><p>Un Arduino supervisa la puerta y la temperatura. Activa el ventilador desde 60 °C y la alarma cuando la puerta está abierta o la temperatura alcanza 85 °C.</p><div class="design-map"><label>Sensor de temperatura<select data-design="sensor"><option value="digital">Entrada digital</option><option value="analog">Entrada analógica</option><option value="output">Salida</option></select></label><label>Contacto de puerta<select data-design="door"><option value="analog">Entrada analógica</option><option value="digital">Entrada digital</option><option value="output">Salida</option></select></label><label>Ventilador<select data-design="fan"><option value="analog">Entrada analógica</option><option value="digital">Entrada digital</option><option value="output">Salida</option></select></label></div><div class="action-row"><button class="btn" id="checkDesign" type="button">Comprobar asignación</button><button class="btn small hidden" id="hintDesign" type="button">Ver pista</button></div><div class="feedback" id="designFeedback" role="status" aria-live="polite">Clasifica las señales antes de implementar.</div></div><div class="io-workbench"><button class="control-button" id="designPower" type="button" aria-pressed="true">Sistema activo (1)</button><button class="control-button" id="designDoor" type="button" aria-pressed="false">Puerta cerrada (0)</button><label for="designTemp">Temperatura: <output id="designTempValue">40 °C</output></label><input id="designTemp" type="range" min="0" max="100" value="40"><div class="twin-output"><div><div class="indicator" id="designFan"></div><output class="state-label" id="designFanState">VENTILADOR: OFF</output></div><div><div class="indicator alarm" id="designAlarm"></div><output class="state-label" id="designAlarmState">ALARMA: OFF</output></div></div></div></div></div><h3>Verificación automática</h3><div style="overflow-x:auto"><table class="test-table" id="testTable"><thead><tr><th>Caso</th><th>Sistema</th><th>Puerta</th><th>Temp.</th><th>Ventilador</th><th>Alarma</th></tr></thead><tbody><tr><td>Normal</td><td>1</td><td>0</td><td>40 °C</td><td>OFF</td><td>OFF</td></tr><tr><td>Ventilación</td><td>1</td><td>0</td><td>70 °C</td><td>ON</td><td>OFF</td></tr><tr><td>Intrusión</td><td>1</td><td>1</td><td>40 °C</td><td>OFF</td><td>ON</td></tr><tr><td>Sobretemperatura</td><td>1</td><td>0</td><td>90 °C</td><td>ON</td><td>ON</td></tr><tr><td>Detenido</td><td>0</td><td>1</td><td>90 °C</td><td>OFF</td><td>OFF</td></tr></tbody></table></div><div class="action-row"><button class="btn" id="runTests" type="button">Ejecutar 5 casos</button></div><div class="feedback" id="testFeedback" role="status" aria-live="polite">Ejecuta los casos para verificar todas las reglas.</div><details><summary><strong>Ver código orientativo para Arduino</strong></summary><pre class="arduino-code"><code>const int PIN_PUERTA = 2;
+const int PIN_SISTEMA = 3;
+const int PIN_VENTILADOR = 8;
+const int PIN_ALARMA = 9;
+const int PIN_TEMPERATURA = A0;
+
+void setup() {
+  pinMode(PIN_PUERTA, INPUT_PULLUP);
+  pinMode(PIN_SISTEMA, INPUT_PULLUP);
+  pinMode(PIN_VENTILADOR, OUTPUT);
+  pinMode(PIN_ALARMA, OUTPUT);
+}
+
+void loop() {
+  bool puertaAbierta = digitalRead(PIN_PUERTA) == LOW;
+  bool sistemaActivo = digitalRead(PIN_SISTEMA) == LOW;
+  int lecturaADC = analogRead(PIN_TEMPERATURA);
+  float temperatura = lecturaADC * 100.0 / 1023.0;
+
+  bool ventilador = sistemaActivo && temperatura >= 60.0;
+  bool alarma = sistemaActivo && (puertaAbierta || temperatura >= 85.0);
+
+  digitalWrite(PIN_VENTILADOR, ventilador ? HIGH : LOW);
+  digitalWrite(PIN_ALARMA, alarma ? HIGH : LOW);
+}</code></pre><p>El modelo supone que el sensor entrega linealmente 0–100 °C para códigos ADC 0–1023. En una implementación real debe utilizarse la ecuación y el acondicionamiento indicados por el sensor elegido.</p></details><div class="safety-note"><strong>Antes del montaje:</strong> verifica niveles de tensión, corriente máxima de los pines, tierra común y necesidad de transistor, relé, diodo de protección o fuente externa. Las conexiones de potencia deben permanecer separadas de la lógica de bajo voltaje.</div></div></section>
+
+  <section id="comprobar" data-step="6" aria-labelledby="comprobar-title"><div class="band"><div class="section-head"><div class="section-code">COMPRUEBA</div><div><h2 id="comprobar-title">Comprobación integradora</h2><p class="lead">Responde las seis preguntas y revisa la explicación de cada resultado.</p></div></div><form class="quiz" id="finalQuiz"></form><div class="action-row"><button class="btn" id="gradeQuiz" type="button">Calificar</button><button class="btn small hidden" id="retryQuiz" type="button">Nuevo intento</button></div><div class="feedback" id="quizFeedback" role="status" aria-live="polite">Tu resultado aparecerá aquí.</div><h3>Reflexión de cierre</h3><label for="reflection">Propón una mejora para el sistema del gabinete. Especifica la nueva entrada o salida, la regla de control y un caso de prueba que permita verificarla.</label><textarea id="reflection" placeholder="Mejora → señal → regla → salida → caso de prueba"></textarea><div class="action-row"><button class="btn small" id="saveReflection" type="button">Guardar reflexión</button><button class="btn small" id="clearReflection" type="button">Borrar</button></div><div class="feedback" id="reflectionFeedback" role="status" aria-live="polite">La reflexión se guarda únicamente en este navegador.</div></div></section>
+
+  <section aria-labelledby="sources-title"><div class="band"><div class="section-head"><div class="section-code">FUENTES</div><div><h2 id="sources-title">Referencias y alcance</h2><p class="lead">Los modelos se mantienen deliberadamente sencillos para concentrarse en la integración. La selección definitiva de sensores, interfaces de potencia y protecciones debe basarse en sus hojas de datos.</p></div></div><ol class="reference-list"><li>Tocci, R. J., Widmer, N. S. y Moss, G. L. <em>Sistemas digitales. Principios y aplicaciones</em>.</li><li>Floyd, T. L. <em>Fundamentos de sistemas digitales</em>.</li><li>Arduino. <em>Language Reference: digitalRead, digitalWrite, analogRead y pinMode</em>.</li><li>Mano, M. M. y Ciletti, M. D. <em>Diseño digital</em>.</li></ol></div></section>
+</main><footer><div class="band author-line"><span>Jean Paul Mata Quevedo · UCACUE · © 2026</span><span>2.4 Integración y aplicación de sistemas digitales</span><a class="course-back" href="index.html">← Asignatura</a></div></footer><script>"use strict";
+
+const $=(selector,root=document)=>root.querySelector(selector);
+const $$=(selector,root=document)=>[...root.querySelectorAll(selector)];
+
+const completed=new Set(JSON.parse(localStorage.getItem("sd24-progress")||"[]"));
+const progress=$("#courseProgress"),progressText=$("#progressText");
+function updateProgress(){progress.value=completed.size;progressText.textContent=Math.round(completed.size/6*100)+"%";}
+function markStep(step){completed.add(step);localStorage.setItem("sd24-progress",JSON.stringify([...completed]));updateProgress();}
+updateProgress();
+const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting&&entry.target.dataset.step)markStep(Number(entry.target.dataset.step));}),{threshold:.35});
+$$('[data-step]').forEach(section=>observer.observe(section));
+
+// Hero: recorrido completo de adquisición y control.
+const heroCanvas=$("#heroCanvas"),heroCtx=heroCanvas.getContext("2d");
+let heroRunning=!matchMedia("(prefers-reduced-motion: reduce)").matches,heroPhase=0,heroFrame=null;
+function heroBox(x,y,w,h,label,sub,active){heroCtx.beginPath();heroCtx.roundRect(x,y,w,h,10);heroCtx.fillStyle=active?"#165744":"#102a35";heroCtx.fill();heroCtx.strokeStyle=active?"#7ce6d2":"#47707c";heroCtx.lineWidth=2;heroCtx.stroke();heroCtx.fillStyle="#e9f8fa";heroCtx.font="800 17px system-ui";heroCtx.textAlign="center";heroCtx.fillText(label,x+w/2,y+40);heroCtx.fillStyle="#a9c4cc";heroCtx.font="600 13px system-ui";heroCtx.fillText(sub,x+w/2,y+68);}
+function drawHero(){
+  const w=heroCanvas.width,h=heroCanvas.height;heroCtx.fillStyle="#07141a";heroCtx.fillRect(0,0,w,h);
+  heroCtx.strokeStyle="#17323e";heroCtx.lineWidth=1;for(let x=0;x<=w;x+=40){heroCtx.beginPath();heroCtx.moveTo(x,0);heroCtx.lineTo(x,h);heroCtx.stroke();}for(let y=0;y<=h;y+=40){heroCtx.beginPath();heroCtx.moveTo(0,y);heroCtx.lineTo(w,y);heroCtx.stroke();}
+  const stage=Math.floor(heroPhase)%4;
+  const boxes=[[25,135,150,95,"ENTRADAS","digitales + analógica"],[215,135,150,95,"ADQUISICIÓN","lectura y ADC"],[405,135,150,95,"DECISIÓN","reglas del programa"],[595,135,140,95,"SALIDAS","LED · alarma · relé"]];
+  boxes.forEach((box,index)=>heroBox(...box,index===stage));
+  heroCtx.strokeStyle="#66d4e6";heroCtx.lineWidth=4;for(let i=0;i<3;i++){const x1=boxes[i][0]+boxes[i][2],x2=boxes[i+1][0];heroCtx.beginPath();heroCtx.moveTo(x1,182);heroCtx.lineTo(x2,182);heroCtx.stroke();const p=(heroPhase*.55+i*.27)%1;heroCtx.fillStyle="#7ce6d2";heroCtx.beginPath();heroCtx.arc(x1+p*(x2-x1),182,6,0,Math.PI*2);heroCtx.fill();}
+  heroCtx.fillStyle="#8da8b1";heroCtx.font="700 14px system-ui";heroCtx.textAlign="center";heroCtx.fillText("MEDIR → PROCESAR → ACTUAR → VERIFICAR",w/2,300);
+  if(heroRunning){heroPhase+=.012;heroFrame=requestAnimationFrame(drawHero);}else heroFrame=null;
+}
+drawHero();
+$("#pauseHero").addEventListener("click",event=>{heroRunning=!heroRunning;event.currentTarget.textContent=heroRunning?"Pausar visualización":"Reanudar visualización";if(heroRunning&&heroFrame===null)drawHero();});
+
+// 2.4.1 Lectura de entradas digitales.
+let inputPressed=false,floatingTick=0;
+function digitalReadValue(){const mode=$("#inputWiring").value;if(mode==="pullup")return inputPressed?0:1;if(mode==="pulldown")return inputPressed?1:0;return inputPressed?1:(floatingTick%2);}
+function renderInput(){
+  const mode=$("#inputWiring").value,value=digitalReadValue();
+  $("#pressButton").setAttribute("aria-pressed",String(inputPressed));$("#pressButton").textContent=inputPressed?"Pulsador presionado":"Pulsador liberado";
+  $("#digitalLevel").textContent=value?"HIGH (1)":"LOW (0)";$("#digitalLevel").classList.toggle("high",Boolean(value));
+  const explanations={pullup:"INPUT_PULLUP: liberado se lee 1 y presionado se lee 0.",pulldown:"Pull-down: liberado se lee 0 y presionado se lee 1.",floating:"Sin referencia: al liberar el pulsador, la lectura puede ser indeterminada."};
+  $("#inputExplanation").textContent=explanations[mode];
+  $("#inputCode").textContent=mode==="pullup"?"pinMode(2, INPUT_PULLUP);\nestado = digitalRead(2);":"pinMode(2, INPUT);\nestado = digitalRead(2);";
+}
+$("#pressButton").addEventListener("click",()=>{inputPressed=!inputPressed;floatingTick++;renderInput();});$("#inputWiring").addEventListener("change",()=>{floatingTick++;renderInput();});renderInput();
+$("#checkInput").addEventListener("click",()=>{const answer=$('input[name="inputAnswer"]:checked')?.value,feedback=$("#inputFeedback");if(!answer){feedback.className="feedback warn";feedback.textContent="Selecciona una respuesta.";return;}if(answer==="zero"){feedback.className="feedback success";feedback.textContent="Correcto. Con INPUT_PULLUP, el pulsador conecta el pin a GND al presionarlo y la lectura es LOW (0).";$("#hintInput").classList.add("hidden");}else{feedback.className="feedback error";feedback.textContent="Observa que la resistencia interna mantiene el pin en HIGH mientras el pulsador está liberado.";$("#hintInput").classList.remove("hidden");}});
+$("#hintInput").addEventListener("click",()=>{$("#inputFeedback").className="feedback warn";$("#inputFeedback").textContent="Pista: en INPUT_PULLUP la lógica del pulsador queda invertida.";});
+
+// 2.4.2 Control de salidas digitales.
+let outputHigh=false;
+function renderOutput(){const load=$("#outputLoad").value;$("#outputToggle").setAttribute("aria-pressed",String(outputHigh));$("#outputToggle").textContent=outputHigh?"Escribir LOW":"Escribir HIGH";$("#pinState").textContent=outputHigh?"PIN = HIGH":"PIN = LOW";$("#loadVisual").className="load-visual "+(outputHigh?"on ":"")+load;const labels={led:outputHigh?"LED encendido":"LED apagado",buzzer:outputHigh?"Zumbador activo":"Zumbador inactivo",relay:outputHigh?"Relé activado":"Relé desactivado"};$("#loadState").textContent=labels[load];$("#outputCode").textContent="pinMode(8, OUTPUT);\ndigitalWrite(8, "+(outputHigh?"HIGH":"LOW")+");";}
+$("#outputToggle").addEventListener("click",()=>{outputHigh=!outputHigh;renderOutput();});$("#outputLoad").addEventListener("change",renderOutput);renderOutput();
+$("#checkOutput").addEventListener("click",()=>{const answer=$('input[name="outputAnswer"]:checked')?.value,feedback=$("#outputFeedback");if(!answer){feedback.className="feedback warn";feedback.textContent="Selecciona una respuesta.";return;}if(answer==="driver"){feedback.className="feedback success";feedback.textContent="Correcto. El pin entrega una señal de control; una etapa de potencia maneja la corriente del relé y protege el dispositivo.";$("#hintOutput").classList.add("hidden");}else{feedback.className="feedback error";feedback.textContent="Un pin digital no debe alimentar directamente una carga que exige más corriente de la permitida.";$("#hintOutput").classList.remove("hidden");}});
+$("#hintOutput").addEventListener("click",()=>{$("#outputFeedback").className="feedback warn";$("#outputFeedback").textContent="Pista: separa la señal lógica de la energía que necesita la carga.";});
+
+// 2.4.3 Integración de señales analógicas y digitales.
+let systemEnabled=true;
+function renderIntegration(){
+  const temperature=Number($("#temperature").value),threshold=Number($("#threshold").value),adc=Math.round(temperature/100*1023),hot=temperature>=threshold,fan=systemEnabled&&hot,alarm=systemEnabled&&temperature>=85;
+  $("#enableSwitch").setAttribute("aria-pressed",String(systemEnabled));$("#enableSwitch").textContent=systemEnabled?"Sistema habilitado (1)":"Sistema detenido (0)";
+  $("#temperatureValue").textContent=temperature+" °C";$("#thresholdValue").textContent=threshold+" °C";$("#adcValue").textContent=adc;$("#conditionValue").textContent=hot?"T ≥ umbral":"T < umbral";
+  $("#fanLed").classList.toggle("on",fan);$("#alarmLed").classList.toggle("on",alarm);$("#fanState").textContent=fan?"VENTILADOR ACTIVO":"VENTILADOR INACTIVO";$("#alarmState").textContent=alarm?"ALARMA ACTIVA":"ALARMA INACTIVA";
+  $("#integrationCode").textContent="habilitado = digitalRead(2);\ntemperatura = leerSensor(A0);\nventilador = habilitado && temperatura >= "+threshold+";\nalarma = habilitado && temperatura >= 85;";
+}
+$("#enableSwitch").addEventListener("click",()=>{systemEnabled=!systemEnabled;renderIntegration();});$("#temperature").addEventListener("input",renderIntegration);$("#threshold").addEventListener("input",renderIntegration);renderIntegration();
+$("#checkIntegration").addEventListener("click",()=>{const answer=$('input[name="integrationAnswer"]:checked')?.value,feedback=$("#integrationFeedback");if(!answer){feedback.className="feedback warn";feedback.textContent="Selecciona una respuesta.";return;}if(answer==="fanOff"){feedback.className="feedback success";feedback.textContent="Correcto. La condición digital de habilitación vale 0, por lo que la salida permanece apagada aunque la temperatura supere el umbral.";$("#hintIntegration").classList.add("hidden");}else{feedback.className="feedback error";feedback.textContent="Evalúa primero la condición habilitado AND temperatura alta.";$("#hintIntegration").classList.remove("hidden");}});
+$("#hintIntegration").addEventListener("click",()=>{$("#integrationFeedback").className="feedback warn";$("#integrationFeedback").textContent="Pista: en una operación AND, una entrada 0 obliga a que el resultado sea 0.";});
+
+// 2.4.4 Solución integrada: gabinete de telecomunicaciones.
+let designDoor=0,designPower=1,autoRun=false,autoTimer=null;
+function evaluateDesign(temp,door,power){return{fan:Boolean(power&&temp>=60),alarm:Boolean(power&&(door||temp>=85))};}
+function renderDesign(){
+  const temp=Number($("#designTemp").value),state=evaluateDesign(temp,designDoor,designPower);
+  $("#designDoor").setAttribute("aria-pressed",String(Boolean(designDoor)));$("#designPower").setAttribute("aria-pressed",String(Boolean(designPower)));
+  $("#designDoor").textContent="Puerta "+(designDoor?"abierta (1)":"cerrada (0)");$("#designPower").textContent="Sistema "+(designPower?"activo (1)":"detenido (0)");$("#designTempValue").textContent=temp+" °C";
+  $("#designFan").classList.toggle("on",state.fan);$("#designAlarm").classList.toggle("on",state.alarm);$("#designFanState").textContent=state.fan?"VENTILADOR: ON":"VENTILADOR: OFF";$("#designAlarmState").textContent=state.alarm?"ALARMA: ON":"ALARMA: OFF";
+}
+$("#designDoor").addEventListener("click",()=>{designDoor=1-designDoor;renderDesign();});$("#designPower").addEventListener("click",()=>{designPower=1-designPower;renderDesign();});$("#designTemp").addEventListener("input",renderDesign);renderDesign();
+const testCases=[{p:1,d:0,t:40,f:false,a:false},{p:1,d:0,t:70,f:true,a:false},{p:1,d:1,t:40,f:false,a:true},{p:1,d:0,t:90,f:true,a:true},{p:0,d:1,t:90,f:false,a:false}];
+function stopAuto(){autoRun=false;if(autoTimer)clearTimeout(autoTimer);autoTimer=null;$("#runTests").disabled=false;}
+$("#runTests").addEventListener("click",()=>{if(autoRun)return;autoRun=true;$("#runTests").disabled=true;let index=0,passed=0;const rows=$$("#testTable tbody tr");rows.forEach(row=>row.removeAttribute("data-result"));function next(){if(index>=testCases.length){$("#testFeedback").className="feedback success";$("#testFeedback").textContent="5/5 casos superados. La solución coincide con las reglas definidas.";stopAuto();return;}const test=testCases[index];designPower=test.p;designDoor=test.d;$("#designTemp").value=test.t;renderDesign();const state=evaluateDesign(test.t,test.d,test.p),ok=state.fan===test.f&&state.alarm===test.a;rows[index].dataset.result=ok?"pass":"fail";if(ok)passed++;$("#testFeedback").className=ok?"feedback success":"feedback error";$("#testFeedback").textContent="Caso "+(index+1)+": "+(ok?"superado":"revisar")+" · avance "+passed+"/"+(index+1);index++;autoTimer=setTimeout(next,650);}next();});
+
+$("#checkDesign").addEventListener("click",()=>{const answers=[$('select[data-design="sensor"]').value,$('select[data-design="door"]').value,$('select[data-design="fan"]').value],feedback=$("#designFeedback");const ok=answers[0]==="analog"&&answers[1]==="digital"&&answers[2]==="output";if(ok){feedback.className="feedback success";feedback.textContent="Correcto. La temperatura requiere lectura analógica, la puerta entrega un estado digital y el ventilador es una salida controlada.";$("#hintDesign").classList.add("hidden");}else{feedback.className="feedback error";feedback.textContent="Revisa qué señales varían continuamente, cuáles tienen dos estados y cuáles son órdenes hacia actuadores.";$("#hintDesign").classList.remove("hidden");}});
+$("#hintDesign").addEventListener("click",()=>{$("#designFeedback").className="feedback warn";$("#designFeedback").textContent="Pista: medir temperatura → entrada analógica; detectar puerta → entrada digital; activar ventilador → salida digital.";});
+
+const quiz=[
+  {q:"¿Para qué sirve una resistencia pull-up o pull-down en una entrada digital?",o:["Para evitar un estado flotante","Para aumentar la memoria","Para convertir la salida en analógica"],a:0,e:"La resistencia establece un nivel conocido cuando el contacto está abierto."},
+  {q:"Con INPUT_PULLUP, ¿qué suele leerse al presionar un pulsador conectado a GND?",o:["LOW","HIGH","Un valor analógico"],a:0,e:"Al presionar, el pin queda conectado a GND y se lee LOW."},
+  {q:"¿Qué instrucción conceptual controla un pin configurado como salida?",o:["Escribir HIGH o LOW","Leer únicamente el ADC","Cambiar la memoria ROM"],a:0,e:"Una salida digital se controla escribiendo uno de los dos niveles lógicos."},
+  {q:"¿Por qué un relé suele necesitar una etapa de potencia?",o:["Porque puede exigir más corriente que el pin","Porque transforma binario a decimal","Porque almacena el programa"],a:0,e:"El pin entrega la orden lógica; la etapa externa maneja la corriente de la carga."},
+  {q:"¿Qué bloque convierte la señal analógica de un sensor en un número?",o:["ADC","Pulsador","Compuerta NOT"],a:0,e:"El ADC produce el código digital que el programa puede comparar."},
+  {q:"¿Qué debe hacerse después de implementar una solución?",o:["Probar casos normales y críticos","Cambiar conexiones sin criterio","Verificar solo una entrada"],a:0,e:"La verificación sistemática confirma que las reglas se cumplen en diferentes condiciones."}
+];
+const quizForm=$("#finalQuiz");quiz.forEach((item,index)=>{const question=document.createElement("div");question.className="question";const options=item.o.map((option,optionIndex)=>"<label><input type=\"radio\" name=\"q"+index+"\" value=\""+optionIndex+"\"> "+option+"</label>").join("");question.innerHTML="<fieldset><legend>"+(index+1)+". "+item.q+"</legend>"+options+"<div class=\"feedback hidden\" id=\"qfb"+index+"\"></div></fieldset>";quizForm.append(question);});
+$("#gradeQuiz").addEventListener("click",()=>{let score=0,missing=0;quiz.forEach((item,index)=>{const answer=$("input[name=\"q"+index+"\"]:checked")?.value,feedback=$("#qfb"+index);feedback.classList.remove("hidden");if(answer===undefined){missing++;feedback.className="feedback warn";feedback.textContent="Falta responder.";}else if(Number(answer)===item.a){score++;feedback.className="feedback success";feedback.textContent="Correcto. "+item.e;}else{feedback.className="feedback error";feedback.textContent="Revisa: "+item.e;}});const overall=$("#quizFeedback");if(missing){overall.className="feedback warn";overall.textContent="Responde las "+missing+" pregunta(s) pendiente(s).";}else{overall.className=score>=5?"feedback success":"feedback warn";overall.innerHTML="<span class=\"quiz-score\">"+score+"/6</span> · "+(score===6?"Dominio sólido.":score>=5?"Logro esperado; revisa la explicación pendiente.":"Revisa los conceptos y realiza un nuevo intento.");$("#retryQuiz").classList.remove("hidden");}});
+$("#retryQuiz").addEventListener("click",()=>{$$("#finalQuiz input").forEach(input=>input.checked=false);$$('[id^="qfb"]').forEach(feedback=>feedback.classList.add("hidden"));$("#quizFeedback").className="feedback";$("#quizFeedback").textContent="Nuevo intento habilitado.";});
+
+const reflection=$("#reflection");reflection.value=localStorage.getItem("sd24-reflection")||"";
+$("#saveReflection").addEventListener("click",()=>{const value=reflection.value.trim(),feedback=$("#reflectionFeedback");if(value.length<35){feedback.className="feedback warn";feedback.textContent="Amplía la propuesta y su criterio de verificación antes de guardarla.";return;}localStorage.setItem("sd24-reflection",value);feedback.className="feedback success";feedback.textContent="Reflexión guardada en este navegador.";});
+$("#clearReflection").addEventListener("click",()=>{reflection.value="";localStorage.removeItem("sd24-reflection");$("#reflectionFeedback").className="feedback";$("#reflectionFeedback").textContent="Reflexión borrada.";});
+
+const links=$$("nav a[href^='#']"),navObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){links.forEach(link=>link.removeAttribute("aria-current"));const active=links.find(link=>link.getAttribute("href")==="#"+entry.target.id);if(active)active.setAttribute("aria-current","location");}}),{rootMargin:"-30% 0px -60%"});
+$$('main section[id]').forEach(section=>navObserver.observe(section));
+</script></body></html>
