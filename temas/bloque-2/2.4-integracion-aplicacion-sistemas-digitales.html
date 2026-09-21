@@ -50,6 +50,12 @@
     .brand { min-width: 180px; }
     .brand strong { display: block; font-size: .95rem; }
     .brand span { color: var(--muted); font-size: .78rem; }
+    .course-home-link {
+      color: var(--cyan-dark); text-decoration: none; white-space: nowrap;
+      padding: .42rem .62rem; border: 1px solid var(--line); border-radius: 4px;
+      font-size: .8rem; font-weight: 750;
+    }
+    .course-home-link:hover { background: var(--soft); }
     nav { display: flex; gap: .25rem; overflow-x: auto; scrollbar-width: thin; flex: 1; }
     nav a {
       color: var(--ink); text-decoration: none; white-space: nowrap;
@@ -380,7 +386,7 @@
   @media(max-width:900px){.io-columns{grid-template-columns:1fr 1fr}.io-columns .logic-readout{grid-column:1/-1}.signal-map{grid-template-columns:1fr 1fr}.signal-step:nth-child(2)::after{display:none}.design-cycle{grid-template-columns:repeat(3,1fr)}}
   @media(max-width:650px){.io-columns,.metric-grid,.twin-output,.signal-map,.design-map,.design-cycle{grid-template-columns:1fr}.io-columns .logic-readout{grid-column:auto}.signal-step:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-.9rem;transform:translateX(-50%)}.signal-step:nth-child(2)::after{display:block}.test-table{font-size:.78rem}.test-table th,.test-table td{padding:.35rem}.author-line{display:grid}}
 </style></head>
-<body><a class="skip-link" href="#inicio">Ir al contenido</a><header><div class="header-inner"><a class="course-back" href="index.html" aria-label="Volver a la página principal de la asignatura">← Asignatura</a><div class="brand"><strong>Sistemas Digitales</strong><span>Bloque 2 · Tema 2.4</span></div><nav aria-label="Secciones del tema"><a href="#inicio">Inicio</a><a href="#entradas">Entradas</a><a href="#salidas">Salidas</a><a href="#integracion">Integración</a><a href="#solucion">Solución</a><a href="#comprobar">Comprobación</a></nav><div class="progress-wrap"><label for="courseProgress">Progreso <span id="progressText">0%</span></label><progress id="courseProgress" max="6" value="0"></progress></div></div></header>
+<body><a class="skip-link" href="#inicio">Ir al contenido</a><header><div class="header-inner"><a class="course-back" href="index.html" aria-label="Volver a la página principal de la asignatura">← Asignatura</a><div class="brand"><strong>Sistemas Digitales</strong><span>Bloque 2 · Tema 2.4</span></div><a class="course-home-link" href="../../index.html" aria-label="Volver al índice principal de la asignatura">← Asignatura</a><nav aria-label="Secciones del tema"><a href="#inicio">Inicio</a><a href="#entradas">Entradas</a><a href="#salidas">Salidas</a><a href="#integracion">Integración</a><a href="#solucion">Solución</a><a href="#comprobar">Comprobación</a></nav><div class="progress-wrap"><label for="courseProgress">Progreso <span id="progressText">0%</span></label><progress id="courseProgress" max="6" value="0"></progress></div></div></header>
 <main>
   <section class="hero" id="inicio" data-step="1"><div class="hero-grid"><div><div class="eyebrow">Bloque 2 · Tema 2.4 · Integración práctica</div><h1>Integración y aplicación de sistemas digitales</h1><p>Integra entradas digitales, una medición analógica y salidas de control para construir y verificar una solución digital sencilla.</p><div class="hero-actions"><a class="btn" href="#entradas">Comenzar</a><button class="btn secondary" id="pauseHero" type="button">Pausar visualización</button></div></div><div class="scope"><canvas id="heroCanvas" width="760" height="380" role="img" aria-label="Cadena de adquisición, procesamiento y control de un sistema digital"></canvas><div class="scope-status"><span>Medir</span><span>Procesar</span><span>Actuar</span><span>Verificar</span></div></div></div></section>
 
