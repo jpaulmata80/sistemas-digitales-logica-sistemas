@@ -50,6 +50,12 @@
     .brand { min-width: 180px; }
     .brand strong { display: block; font-size: .95rem; }
     .brand span { color: var(--muted); font-size: .78rem; }
+    .course-home-link {
+      color: var(--cyan-dark); text-decoration: none; white-space: nowrap;
+      padding: .42rem .62rem; border: 1px solid var(--line); border-radius: 4px;
+      font-size: .8rem; font-weight: 750;
+    }
+    .course-home-link:hover { background: var(--soft); }
     nav { display: flex; gap: .25rem; overflow-x: auto; scrollbar-width: thin; flex: 1; }
     nav a {
       color: var(--ink); text-decoration: none; white-space: nowrap;
@@ -364,7 +370,7 @@
     @media(max-width:900px){.signal-chain{grid-template-columns:1fr}.chain-step:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-.85rem;transform:translateX(-50%)}.adc-display{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media(max-width:620px){.measure-grid,.control-grid,.formula-grid,.application-grid{grid-template-columns:1fr}.dac-bits{gap:.2rem}.dac-bit{min-height:42px;padding:.15rem}.adc-display{grid-template-columns:1fr}}
 </style></head>
-<body><a class="skip-link" href="#inicio">Ir al contenido</a><header><div class="header-inner"><div class="brand"><strong>Sistemas Digitales</strong><span>Bloque 2 · Tema 2.2</span></div><nav aria-label="Secciones del tema"><a href="#inicio">Inicio</a><a href="#interfaz">Interfaz</a><a href="#muestreo">Muestreo</a><a href="#adc">ADC</a><a href="#dac">DAC</a><a href="#aplicar">Aplicaciones</a><a href="#comprobar">Comprobación</a></nav><div class="progress-wrap"><label for="courseProgress">Progreso <span id="progressText">0%</span></label><progress id="courseProgress" max="6" value="0"></progress></div></div></header>
+<body><a class="skip-link" href="#inicio">Ir al contenido</a><header><div class="header-inner"><div class="brand"><strong>Sistemas Digitales</strong><span>Bloque 2 · Tema 2.2</span></div><a class="course-home-link" href="../../index.html" aria-label="Volver al índice principal de la asignatura">← Asignatura</a><nav aria-label="Secciones del tema"><a href="#inicio">Inicio</a><a href="#interfaz">Interfaz</a><a href="#muestreo">Muestreo</a><a href="#adc">ADC</a><a href="#dac">DAC</a><a href="#aplicar">Aplicaciones</a><a href="#comprobar">Comprobación</a></nav><div class="progress-wrap"><label for="courseProgress">Progreso <span id="progressText">0%</span></label><progress id="courseProgress" max="6" value="0"></progress></div></div></header>
 <main>
   <section class="hero" id="inicio" data-step="1"><div class="hero-grid"><div><div class="eyebrow">Bloque 2 · Tema 2.2 · Nivel inicial</div><h1>Interfaz entre señales analógicas y digitales</h1><p>Comprende cómo una magnitud continua se convierte en datos digitales y cómo un código puede volver a producir una salida analógica.</p><div class="hero-actions"><a class="btn" href="#interfaz">Comenzar</a><button class="btn secondary" id="pauseScope" type="button">Pausar visualización</button></div></div><div class="scope"><canvas id="scopeCanvas" width="760" height="430" role="img" aria-label="Señal analógica, muestras y niveles cuantizados"></canvas><div class="scope-status"><span>Variación continua</span><span>Muestras y niveles discretos</span></div></div></div></section>
   <section aria-labelledby="orientacion-title"><div class="band"><div class="section-head"><div class="section-code">ORIENTACIÓN</div><div><h2 id="orientacion-title">Cómo trabajar este tema</h2><p class="lead">Sigue la señal desde el fenómeno físico hasta el código digital y después recorre el proceso inverso.</p></div></div><div class="outcomes"><div class="outcome"><b>Relacionar</b>Magnitudes físicas y representaciones digitales.</div><div class="outcome"><b>Interpretar</b>Muestreo, cuantización y resolución.</div><div class="outcome"><b>Experimentar</b>Con conversiones ADC y DAC.</div><div class="outcome"><b>Aplicar</b>La cadena a adquisición y generación de señales.</div></div><p><strong>Conocimiento previo:</strong> señales analógicas y digitales, bits, sistemas de numeración y representación binaria.</p></div></section>
