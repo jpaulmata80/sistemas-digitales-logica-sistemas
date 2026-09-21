@@ -16,19 +16,25 @@
     header .wrap { padding: 64px 0 54px; }
     .eyebrow { color: #93c5fd; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: .8rem; }
     h1 { max-width: 820px; margin: .55rem 0 1rem; font-size: clamp(2rem, 5vw, 4rem); line-height: 1.05; }
-    header p { max-width: 700px; color: #cbd5e1; line-height: 1.65; }
+    header p { max-width: 760px; color: #cbd5e1; line-height: 1.65; }
     main.wrap { padding: 42px 0 56px; }
-    .blocks { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 20px; }
+    .blocks { display: grid; gap: 24px; }
     .block { border: 1px solid #cbd5e1; border-radius: 18px; padding: 24px; background: #fff; }
     .block small { color: #2563eb; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; }
-    .block h2 { margin: .55rem 0 .8rem; }
-    .block p { color: #475569; line-height: 1.55; }
-    .pending { display: inline-block; margin-top: .6rem; padding: .42rem .68rem; border-radius: 999px; background: #e2e8f0; color: #334155; font-size: .82rem; font-weight: 700; }
+    .block h2 { margin: .55rem 0 .5rem; }
+    .block > p { color: #475569; line-height: 1.55; margin-bottom: 1.25rem; }
+    .topics { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+    .topic { display: block; padding: 18px; border: 1px solid #dbe3ea; border-radius: 12px; color: inherit; text-decoration: none; background: #f8fafc; transition: transform .18s ease, border-color .18s ease; }
+    .topic:hover, .topic:focus-visible { transform: translateY(-2px); border-color: #2563eb; outline: none; }
+    .topic b { display: block; color: #2563eb; font-size: .82rem; margin-bottom: .35rem; }
+    .topic span { display: block; font-weight: 750; line-height: 1.35; }
+    .pending { display: inline-block; margin-top: .2rem; padding: .42rem .68rem; border-radius: 999px; background: #e2e8f0; color: #334155; font-size: .82rem; font-weight: 700; }
     footer { padding: 22px 0 32px; color: #64748b; font-size: .9rem; border-top: 1px solid #e2e8f0; }
     @media (prefers-color-scheme: dark) {
       body { background: #020617; color: #e2e8f0; }
       .block { background: #0f172a; border-color: #334155; }
-      .block p { color: #cbd5e1; }
+      .block > p { color: #cbd5e1; }
+      .topic { background: #111827; border-color: #334155; }
       .pending { background: #1e293b; color: #cbd5e1; }
       footer { border-color: #334155; color: #94a3b8; }
     }
@@ -47,9 +53,27 @@
     <section class="blocks" aria-label="Bloques de la asignatura">
       <article class="block">
         <small>Bloque 1</small>
-        <h2>Contenidos del Bloque 1</h2>
-        <p>Los temas interactivos se incorporarán progresivamente conforme avance el desarrollo de la asignatura.</p>
-        <span class="pending">En preparación</span>
+        <h2>Fundamentos de sistemas digitales y lógica</h2>
+        <p>Temas interactivos disponibles actualmente.</p>
+
+        <div class="topics">
+          <a class="topic" href="temas/bloque-1/1.1-fundamentos-sistemas-digitales.html">
+            <b>Tema 1.1</b>
+            <span>Fundamentos de los sistemas digitales</span>
+          </a>
+          <a class="topic" href="temas/bloque-1/1.2-sistemas-numeracion.html">
+            <b>Tema 1.2</b>
+            <span>Sistemas de numeración</span>
+          </a>
+          <a class="topic" href="temas/bloque-1/1.3-algebra-boole.html">
+            <b>Tema 1.3</b>
+            <span>Álgebra de Boole</span>
+          </a>
+          <a class="topic" href="temas/bloque-1/1.4-compuertas-logicas.html">
+            <b>Tema 1.4</b>
+            <span>Compuertas lógicas</span>
+          </a>
+        </div>
       </article>
 
       <article class="block">
