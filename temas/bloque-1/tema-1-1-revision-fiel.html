@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Tema interactivo 1.1: Fundamentos de los sistemas digitales">
+  <title>Tema 1.1 | Fundamentos de los sistemas digitales</title>
+  <style>
+    :root {
+      --ink: #18212a;
+      --muted: #586775;
+      --line: #cbd5dc;
+      --soft: #f3f6f8;
+      --paper: #ffffff;
+      --cyan: #007c91;
+      --cyan-dark: #005b6a;
+      --green: #16734a;
+      --green-soft: #e8f5ee;
+      --amber: #9a5d00;
+      --amber-soft: #fff3d8;
+      --red: #a13c35;
+      --red-soft: #fdecea;
+      --focus: #005fcc;
+      --max: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 280px;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+    button, input, textarea { font: inherit; }
+    button, input[type="range"], input[type="radio"], input[type="checkbox"] { cursor: pointer; }
+    button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+    .skip-link {
+      position: fixed; left: 1rem; top: -5rem; z-index: 100;
+      padding: .7rem 1rem; background: var(--ink); color: white;
+    }
+    .skip-link:focus { top: 1rem; }
+    header {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(255,255,255,.97); border-bottom: 1px solid var(--line);
+    }
+    .header-inner {
+      max-width: var(--max); margin: 0 auto; min-height: 64px;
+      padding: .55rem 1.25rem; display: flex; gap: 1.25rem; align-items: center;
+    }
+    .brand { min-width: 180px; }
+    .brand strong { display: block; font-size: .95rem; }
+    .brand span { color: var(--muted); font-size: .78rem; }
+    nav { display: flex; gap: .25rem; overflow-x: auto; scrollbar-width: thin; flex: 1; }
+    nav a {
+      color: var(--ink); text-decoration: none; white-space: nowrap;
+      padding: .45rem .65rem; border-bottom: 2px solid transparent; font-size: .86rem;
+    }
+    nav a:hover, nav a[aria-current="location"] { color: var(--cyan-dark); border-color: var(--cyan); }
+    .progress-wrap { width: 150px; }
+    .progress-wrap label { display: block; font-size: .72rem; color: var(--muted); }
+    progress { width: 100%; height: 8px; accent-color: var(--cyan); }
+    main { overflow: hidden; }
+    section { scroll-margin-top: 82px; border-bottom: 1px solid var(--line); }
+    .band { max-width: var(--max); margin: 0 auto; padding: 4.5rem 1.25rem; }
+    .hero { min-height: calc(100svh - 64px); display: grid; align-items: center; background: #10212a; color: white; }
+    .hero-grid { max-width: var(--max); margin: 0 auto; padding: 3.5rem 1.25rem; width: 100%; display: grid; grid-template-columns: .9fr 1.35fr; gap: 3.5rem; align-items: center; }
+    .eyebrow { color: #6ed2e2; font-size: .82rem; font-weight: 750; text-transform: uppercase; letter-spacing: .08em; }
+    h1 { font-size: clamp(2.35rem, 5vw, 4.8rem); line-height: .98; letter-spacing: 0; margin: .65rem 0 1.15rem; max-width: 10ch; }
+    h2 { font-size: clamp(1.75rem, 3.3vw, 2.8rem); line-height: 1.12; letter-spacing: 0; margin: 0 0 .8rem; }
+    h3 { font-size: 1.25rem; letter-spacing: 0; margin: 1.8rem 0 .55rem; }
+    p { max-width: 72ch; }
+    .hero p { color: #d7e5ea; font-size: 1.1rem; }
+    .hero-actions { display: flex; gap: .7rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    .btn {
+      border: 1px solid var(--cyan-dark); background: var(--cyan); color: white;
+      padding: .7rem 1rem; border-radius: 5px; font-weight: 700;
+    }
+    .btn:hover { background: var(--cyan-dark); }
+    .btn.secondary { background: transparent; color: inherit; border-color: currentColor; }
+    .btn.secondary:hover { background: rgba(255,255,255,.1); }
+    .btn.small { padding: .45rem .7rem; font-size: .88rem; }
+    .scope { position: relative; }
+    .scope canvas { width: 100%; height: auto; display: block; background: #07141a; border: 1px solid #3b5965; border-radius: 6px; }
+    .scope-status { display: flex; justify-content: space-between; gap: 1rem; margin-top: .55rem; font-size: .8rem; color: #b8cbd2; }
+    .section-head { display: grid; grid-template-columns: 160px 1fr; gap: 1.5rem; align-items: start; margin-bottom: 2.5rem; }
+    .section-code { color: var(--cyan-dark); font-weight: 800; font-size: .9rem; }
+    .lead { font-size: 1.08rem; color: var(--muted); margin-top: .3rem; }
+    .outcomes { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .outcome { padding: 1.2rem; border-right: 1px solid var(--line); }
+    .outcome:last-child { border-right: 0; }
+    .outcome b { display: block; color: var(--cyan-dark); margin-bottom: .35rem; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+    .hero-grid > *, .two-col > *, .section-head > *, .level-workspace > *, .case-layout > * { min-width: 0; }
+    .concept-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+    .concept-list li { padding: 1rem 0; border-bottom: 1px solid var(--line); }
+    .concept-list strong { display: block; margin-bottom: .25rem; }
+    .activity { margin-top: 2rem; padding: 1.4rem; border: 1px solid var(--line); border-radius: 6px; background: var(--soft); }
+    .activity h3 { margin-top: 0; }
+    .activity-instruction { color: var(--muted); margin-top: 0; }
+    .scenario-list { display: grid; gap: .65rem; margin: 1rem 0; }
+    .scenario { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center; padding: .8rem; background: white; border: 1px solid var(--line); border-radius: 5px; }
+    .choice-group { display: flex; gap: .4rem; }
+    .choice-group label { padding: .35rem .55rem; border: 1px solid var(--line); border-radius: 4px; white-space: nowrap; }
+    .choice-group input { margin-right: .3rem; }
+    .feedback { margin-top: .85rem; padding: .8rem 1rem; border-left: 4px solid var(--cyan); background: white; min-height: 3rem; }
+    .feedback.success { background: var(--green-soft); border-color: var(--green); }
+    .feedback.warn { background: var(--amber-soft); border-color: var(--amber); }
+    .feedback.error { background: var(--red-soft); border-color: var(--red); }
+    .action-row { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: .9rem; }
+    .hidden { display: none !important; }
+    .level-workspace { display: grid; grid-template-columns: 1.3fr .9fr; gap: 2rem; align-items: stretch; }
+    .voltage-panel { background: #10212a; color: white; padding: 1.4rem; border-radius: 6px; }
+    .voltage-readout { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+    .voltage-value { font-size: 2.5rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .meter { height: 260px; display: grid; grid-template-columns: 48px 1fr; gap: 1rem; margin: 1rem 0; }
+    .meter-track { position: relative; border: 1px solid #60808d; background: #0a171d; }
+    .zone { position: absolute; left: 0; right: 0; }
+    .zone.high { top: 0; height: 39.4%; background: rgba(22,115,74,.6); }
+    .zone.undef { top: 39.4%; height: 36.4%; background: rgba(154,93,0,.65); }
+    .zone.low { bottom: 0; height: 24.2%; background: rgba(0,124,145,.65); }
+    .needle { position: absolute; left: -7px; right: -7px; height: 3px; background: white; box-shadow: 0 0 0 1px #07141a; }
+    .meter-labels { display: flex; flex-direction: column; justify-content: space-between; font-size: .78rem; color: #c9d8dd; text-align: right; }
+    input[type="range"] { width: 100%; accent-color: #6ed2e2; }
+    .state-result { font-weight: 800; color: #6ed2e2; }
+    .warning { color: #ffe0a3; font-size: .88rem; }
+    .bit-console { background: #10212a; color: white; padding: 1.4rem; border-radius: 6px; }
+    .formula-box { display: grid; place-items: center; min-height: 160px; margin: 1rem 0; padding: 1.2rem; border-radius: 6px; background: #10212a; color: white; text-align: center; }
+    .formula-box math { font-size: clamp(2.2rem, 6vw, 3.8rem); font-family: "Cambria Math", "STIX Two Math", "Times New Roman", serif; }
+    .formula-box small { color: #c9d8dd; }
+    .bit-picker { display: flex; flex-wrap: wrap; gap: .45rem; margin: .8rem 0; }
+    .bit-picker button[aria-pressed="true"] { background: var(--green); border-color: var(--green); }
+    .combination-total { color: var(--cyan-dark); font-size: 2rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .combination-preview { max-height: 150px; margin-top: .8rem; padding: .75rem; overflow: auto; border: 1px solid var(--line); border-radius: 5px; background: white; font: 700 .88rem/1.7 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+    .short-answer { width: min(100%, 250px); min-height: 42px; padding: .55rem .7rem; border: 1px solid var(--line); border-radius: 5px; }
+    .sensor-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .65rem; margin: 1rem 0; }
+    .sensor-toggle { border: 1px solid #56717c; background: #172f3a; color: white; padding: .8rem .45rem; border-radius: 5px; min-height: 86px; }
+    .sensor-toggle[aria-pressed="true"] { background: var(--green); border-color: #8bd4af; }
+    .bitstream { font: 800 2.2rem ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .25em; color: #7ce6d2; margin: .7rem 0; }
+    .mapping { color: #c9d8dd; font-size: .85rem; }
+    .case-layout { display: grid; grid-template-columns: .9fr 1.2fr; gap: 2.5rem; }
+    .site-diagram { position: relative; min-height: 360px; background: #e8eff2; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+    .tower { position: absolute; bottom: 35px; left: 50%; width: 8px; height: 230px; background: #475966; transform: translateX(-50%); }
+    .tower::before, .tower::after { content: ""; position: absolute; left: 50%; width: 150px; height: 2px; background: #647986; transform-origin: center; }
+    .tower::before { top: 75px; transform: translateX(-50%) rotate(54deg); }
+    .tower::after { top: 75px; transform: translateX(-50%) rotate(-54deg); }
+    .dish { position: absolute; top: 80px; left: calc(50% + 5px); width: 70px; height: 34px; border: 5px solid var(--cyan); border-left: 0; border-radius: 0 80px 80px 0; transform: rotate(-15deg); }
+    .cabinet { position: absolute; bottom: 35px; left: 12%; width: 100px; height: 128px; background: white; border: 4px solid #475966; }
+    .cabinet::before { content: "EQUIPO"; position: absolute; inset: 10px; border: 1px solid var(--line); padding-top: 36px; text-align: center; font-size: .75rem; color: var(--muted); }
+    .signal-dot { position: absolute; width: 13px; height: 13px; border-radius: 50%; background: var(--cyan); animation: pulse 1.7s infinite; }
+    .dot1 { left: 27%; bottom: 145px; } .dot2 { left: 45%; bottom: 245px; animation-delay: .4s; } .dot3 { right: 18%; top: 86px; animation-delay: .8s; }
+    @keyframes pulse { 50% { transform: scale(1.8); opacity: .35; } }
+    .decision-options { display: grid; gap: .65rem; margin-top: 1rem; }
+    .decision-options label { display: block; padding: .75rem; border: 1px solid var(--line); border-radius: 5px; }
+    .quiz { display: grid; gap: 1.25rem; }
+    .question { padding: 1.1rem; border-top: 1px solid var(--line); }
+    .question:first-child { border-top: 0; }
+    .question fieldset { border: 0; padding: 0; margin: 0; }
+    .question legend { font-weight: 750; margin-bottom: .65rem; }
+    .question label { display: block; padding: .35rem 0; }
+    .quiz-score { font-size: 1.35rem; font-weight: 800; }
+    textarea { width: 100%; min-height: 140px; border: 1px solid var(--line); border-radius: 5px; padding: .8rem; resize: vertical; }
+    .reference-list { padding-left: 1.2rem; }
+    .reference-list li { margin-bottom: .7rem; }
+    a { color: var(--cyan-dark); }
+    footer { background: #10212a; color: #c9d8dd; }
+    footer .band { padding-top: 2rem; padding-bottom: 2rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    @media (max-width: 820px) {
+      section { scroll-margin-top: 130px; }
+      .header-inner { align-items: flex-start; flex-wrap: wrap; gap: .4rem; }
+      .brand { min-width: 130px; }
+      nav { order: 3; flex-basis: 100%; }
+      .progress-wrap { margin-left: auto; }
+      .hero { min-height: auto; }
+      .hero-grid, .two-col, .section-head, .level-workspace, .case-layout { grid-template-columns: 1fr; }
+      .hero-grid { padding-top: 2.6rem; gap: 2rem; }
+      .outcomes { grid-template-columns: 1fr 1fr; }
+      .outcome:nth-child(2) { border-right: 0; }
+      .outcome:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .scenario { grid-template-columns: 1fr; }
+      .sensor-grid { grid-template-columns: 1fr 1fr; }
+      .band { padding-top: 3.2rem; padding-bottom: 3.2rem; }
+    }
+    @media (max-width: 480px) {
+      .progress-wrap { width: 112px; }
+      .outcomes { grid-template-columns: 1fr; }
+      .outcome { border-right: 0; border-bottom: 1px solid var(--line); }
+      .outcome:last-child { border-bottom: 0; }
+      .choice-group { flex-direction: column; align-items: flex-start; }
+      .sensor-grid { grid-template-columns: 1fr; }
+      .bitstream { font-size: 1.7rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .signal-dot { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#inicio">Ir al contenido</a>
+  <header>
+    <div class="header-inner">
+      <div class="brand"><strong>Sistemas Digitales</strong><span>Bloque 1 · Tema 1.1</span></div>
+      <nav aria-label="Secciones del material">
+        <a href="#inicio">Inicio</a><a href="#comparar">Señales</a><a href="#niveles">Niveles</a><a href="#representar">Representación</a><a href="#aplicar">Aplicaciones</a><a href="#comprobar">Comprobación</a>
+      </nav>
+      <div class="progress-wrap"><label for="courseProgress">Progreso <span id="progressText">0%</span></label><progress id="courseProgress" max="6" value="0"></progress></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio" data-step="1">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Bloque 1 · Tema 1.1 · Nivel inicial</div>
+          <h1>Fundamentos de los sistemas digitales</h1>
+          <p>Aprende a distinguir la magnitud física, su representación y el estado lógico que interpreta un sistema.</p>
+          <div class="hero-actions"><a class="btn" href="#comparar">Comenzar</a><button class="btn secondary" id="pauseScope" type="button">Pausar señal</button></div>
+        </div>
+        <div class="scope">
+          <canvas id="scopeCanvas" width="760" height="430" role="img" aria-label="Comparación animada entre una señal analógica continua y una señal digital por niveles"></canvas>
+          <div class="scope-status"><span>Canal A · magnitud continua</span><span>Canal D · estados discretos</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="orientacion-title">
+      <div class="band">
+        <div class="section-head"><div class="section-code">ORIENTACIÓN</div><div><h2 id="orientacion-title">Cómo trabajar este tema</h2><p class="lead">Avanza en orden: observa, predice, experimenta y comprueba. Las actividades te darán retroalimentación inmediata y podrás volver a intentarlas.</p></div></div>
+        <div class="outcomes">
+          <div class="outcome"><b>Distinguir</b>Señales analógicas y digitales sin confundir señal física con información.</div>
+          <div class="outcome"><b>Interpretar</b>Nivel eléctrico, estado lógico y zona no garantizada.</div>
+          <div class="outcome"><b>Representar</b>Estados de un sistema mediante símbolos binarios.</div>
+          <div class="outcome"><b>Justificar</b>El uso de sistemas digitales en una situación de telecomunicaciones.</div>
+        </div>
+        <p><strong>Conocimientos previos:</strong> lectura básica de gráficos y noción de tensión eléctrica. No necesitas convertir números ni aplicar álgebra booleana.</p>
+      </div>
+    </section>
+
+    <section id="comparar" data-step="2" aria-labelledby="comparar-title">
+      <div class="band">
+        <div class="section-head"><div class="section-code">1.1.1</div><div><h2 id="comparar-title">Sistemas analógicos y digitales</h2><p class="lead">La diferencia central está en cómo se representa y procesa la información, no en que un equipo sea antiguo o moderno.</p></div></div>
+        <div class="two-col">
+          <div>
+            <h3>Analógico</h3>
+            <ul class="concept-list">
+              <li><strong>Valores continuos</strong>Una magnitud puede tomar cualquier valor dentro de un intervalo idealizado.</li>
+              <li><strong>Ejemplos físicos</strong>Tensión de un micrófono, temperatura y potencia recibida.</li>
+              <li><strong>Variación</strong>La forma de la señal sigue cambios de la magnitud representada.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Digital</h3>
+            <ul class="concept-list">
+              <li><strong>Conjunto discreto de símbolos</strong>El sistema interpreta estados separados; con frecuencia se usan 0 y 1.</li>
+              <li><strong>Implementación física</strong>Los símbolos se transportan mediante rangos de tensión, luz, corriente u otra variable.</li>
+              <li><strong>Decisión</strong>El receptor clasifica la señal física de acuerdo con reglas o umbrales.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="activity" id="classifyActivity">
+          <h3>Actividad 1 · Clasifica por la representación</h3>
+          <p class="activity-instruction">Selecciona analógica o digital para cada caso. Decide por los valores representados, no por el tipo de dispositivo.</p>
+          <div class="scenario-list" id="scenarioList"></div>
+          <div class="action-row"><button class="btn" id="checkClassify" type="button">Comprobar</button><button class="btn small hidden" id="hintClassify" type="button">Ver pista</button><button class="btn small hidden" id="retryClassify" type="button">Reintentar</button></div>
+          <div class="feedback" id="classifyFeedback" role="status" aria-live="polite">Completa los seis casos antes de comprobar.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="niveles" data-step="3" aria-labelledby="niveles-title">
+      <div class="band">
+        <div class="section-head"><div class="section-code">1.1.2</div><div><h2 id="niveles-title">Niveles y estados lógicos</h2><p class="lead">Un estado lógico es una interpretación abstracta. Un nivel es la condición física que permite realizar esa interpretación.</p></div></div>
+        <div class="level-workspace">
+          <div class="voltage-panel">
+            <div class="voltage-readout"><div><span>Tensión de entrada</span><div class="voltage-value"><span id="voltageValue">1.65</span> V</div></div><div class="state-result" id="logicState">Zona no garantizada</div></div>
+            <div class="meter" aria-hidden="true"><div class="meter-labels"><span>3.3 V</span><span>2.0 V</span><span>0.8 V</span><span>0 V</span></div><div class="meter-track"><div class="zone high"></div><div class="zone undef"></div><div class="zone low"></div><div class="needle" id="needle"></div></div></div>
+            <label for="voltageSlider">Ajusta la tensión</label><input id="voltageSlider" type="range" min="0" max="3.3" step="0.05" value="1.65">
+            <p class="warning">Modelo didáctico de entrada LVTTL a 3,3 V: bajo garantizado hasta 0,8 V y alto garantizado desde 2,0 V. En diseño real se consulta la hoja de datos.</p>
+          </div>
+          <div>
+            <h3>Antes de mover el control</h3>
+            <p>Predice el estado que debería interpretar el receptor para <strong>1,20 V</strong>.</p>
+            <div class="decision-options" id="voltagePrediction">
+              <label><input type="radio" name="predictVoltage" value="0"> Estado lógico 0 garantizado</label>
+              <label><input type="radio" name="predictVoltage" value="x"> No hay estado garantizado</label>
+              <label><input type="radio" name="predictVoltage" value="1"> Estado lógico 1 garantizado</label>
+            </div>
+            <div class="action-row"><button class="btn" id="checkVoltage" type="button">Verificar predicción</button><button class="btn small hidden" id="hintVoltage" type="button">Ver pista</button></div>
+            <div class="feedback" id="voltageFeedback" role="status" aria-live="polite">Elige una predicción y luego verifica.</div>
+            <h3>Idea clave</h3>
+            <p>“0” y “1” no son voltajes universales. Son estados. Los rangos aceptables dependen de la familia lógica, la alimentación y las especificaciones del transmisor y del receptor.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="representar" data-step="4" aria-labelledby="representar-title">
+      <div class="band">
+        <div class="section-head"><div class="section-code">1.1.3</div><div><h2 id="representar-title">Representación digital de la información</h2><p class="lead">Representar significa asignar símbolos a estados o datos siguiendo una convención conocida por emisor y receptor.</p></div></div>
+        <div class="two-col">
+          <div>
+            <h3>Bits y combinaciones posibles</h3>
+            <p>Un estado binario individual se denomina <strong>bit</strong> y puede adoptar los valores 0 o 1. Cuando combinamos varios bits, el número de patrones posibles crece según la relación:</p>
+            <div class="formula-box">
+              <math display="block" aria-label="N igual a dos elevado a n">
+                <semantics>
+                  <mrow><mi>N</mi><mo>=</mo><msup><mn>2</mn><mi>n</mi></msup></mrow>
+                  <annotation encoding="application/x-tex">N=2^n</annotation>
+                </semantics>
+              </math>
+              <small><em>N</em> = combinaciones posibles · <em>n</em> = número de bits</small>
+            </div>
+            <p>Por ejemplo, con tres bits existen ocho patrones: 000, 001, 010, 011, 100, 101, 110 y 111.</p>
+          </div>
+          <div class="activity" style="margin-top:0">
+            <h3>Explora · ¿Cuánta información puedo representar?</h3>
+            <p class="activity-instruction">Selecciona el número de bits y observa el patrón antes de resolver el desafío.</p>
+            <div class="bit-picker" id="bitPicker" aria-label="Número de bits">
+              <button class="btn small" type="button" data-count-bits="1">1</button>
+              <button class="btn small" type="button" data-count-bits="2">2</button>
+              <button class="btn small" type="button" data-count-bits="3">3</button>
+              <button class="btn small" type="button" data-count-bits="4">4</button>
+              <button class="btn small" type="button" data-count-bits="5">5</button>
+              <button class="btn small" type="button" data-count-bits="6">6</button>
+              <button class="btn small" type="button" data-count-bits="7">7</button>
+              <button class="btn small" type="button" data-count-bits="8">8</button>
+            </div>
+            <div><strong id="selectedBitCount">3 bits</strong> permiten:</div>
+            <div class="combination-total"><span id="combinationTotal">8</span> combinaciones</div>
+            <div class="combination-preview" id="combinationPreview" aria-live="polite">000   001   010   011   100   101   110   111</div>
+            <h3>Predice</h3>
+            <label for="tenBitAnswer">¿Cuántos estados diferentes pueden representarse con 10 bits?</label>
+            <div class="action-row"><input class="short-answer" id="tenBitAnswer" type="number" min="0" inputmode="numeric" placeholder="Escribe tu respuesta"><button class="btn" id="checkTenBits" type="button">Comprobar</button></div>
+            <div class="feedback" id="tenBitFeedback" role="status" aria-live="polite">Aplica la relación antes de comprobar.</div>
+          </div>
+        </div>
+        <div class="two-col" style="margin-top:2.5rem">
+          <div>
+            <h3>De la situación al símbolo</h3>
+            <p>Un bit puede representar dos alternativas definidas por el diseñador: abierto o cerrado, alarma inactiva o activa, ausencia o presencia. El significado no está dentro del bit; lo establece la convención.</p>
+            <p>Textos, imágenes y sonidos también pueden representarse digitalmente mediante secuencias de símbolos. Los procedimientos de codificación y conversión se desarrollan en los temas 1.2 y 2.2.</p>
+            <h3>Riesgo de interpretación</h3>
+            <p>La misma secuencia puede significar cosas distintas si cambia el orden de los campos o la regla de codificación. Documentar la convención es parte del diseño.</p>
+          </div>
+          <div class="bit-console">
+            <strong>Panel de estados del gabinete</strong>
+            <p class="mapping">Orden: puerta · humo · energía · ventilación. Pulsa cada estado para cambiarlo.</p>
+            <div class="sensor-grid" id="sensorGrid"></div>
+            <div class="bitstream" id="bitstream" aria-live="polite">0000</div>
+            <div class="mapping" id="bitMeaning">Puerta cerrada · Sin humo · Energía ausente · Ventilación detenida</div>
+          </div>
+        </div>
+        <div class="activity">
+          <h3>Actividad 2 · Interpreta la trama</h3>
+          <p class="activity-instruction">Con la convención anterior, ¿qué secuencia representa puerta abierta, sin humo, energía presente y ventilación activa?</p>
+          <div class="decision-options" id="bitOptions">
+            <label><input type="radio" name="bitAnswer" value="1011"> 1011</label>
+            <label><input type="radio" name="bitAnswer" value="1101"> 1101</label>
+            <label><input type="radio" name="bitAnswer" value="0100"> 0100</label>
+          </div>
+          <div class="action-row"><button class="btn" id="checkBits" type="button">Comprobar</button><button class="btn small hidden" id="hintBits" type="button">Ver pista</button><button class="btn small hidden" id="retryBits" type="button">Reintentar</button></div>
+          <div class="feedback" id="bitFeedback" role="status" aria-live="polite">Lee el orden de los cuatro campos antes de responder.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="aplicar" data-step="5" aria-labelledby="aplicar-title">
+      <div class="band">
+        <div class="section-head"><div class="section-code">1.1.4</div><div><h2 id="aplicar-title">Aplicaciones de los sistemas digitales</h2><p class="lead">En telecomunicaciones, los sistemas digitales permiten representar, procesar, almacenar, transmitir y supervisar información; su desempeño depende de decisiones de ingeniería.</p></div></div>
+        <div class="case-layout">
+          <div class="site-diagram" role="img" aria-label="Sitio de telecomunicaciones con torre, antena y gabinete de equipos"><div class="tower"></div><div class="dish"></div><div class="cabinet"></div><span class="signal-dot dot1"></span><span class="signal-dot dot2"></span><span class="signal-dot dot3"></span></div>
+          <div>
+            <h3>Caso profesional · Supervisión de un sitio remoto</h3>
+            <p>Un centro de operación debe recibir el estado de la puerta y una medida de temperatura del gabinete. La puerta ya ofrece dos estados; la temperatura varía continuamente. Ambos datos deben enviarse, registrarse y generar alarmas.</p>
+            <p><strong>Decide:</strong> ¿qué enfoque describe mejor el sistema?</p>
+            <div class="decision-options" id="caseOptions">
+              <label><input type="radio" name="caseAnswer" value="a"> Tratar ambas entradas como bits sin conversión adicional.</label>
+              <label><input type="radio" name="caseAnswer" value="b"> Representar la puerta directamente como estado digital y convertir la temperatura a una representación digital antes de procesarla.</label>
+              <label><input type="radio" name="caseAnswer" value="c"> Mantener todo analógico porque la temperatura es continua.</label>
+            </div>
+            <div class="action-row"><button class="btn" id="checkCase" type="button">Justificar decisión</button><button class="btn small hidden" id="hintCase" type="button">Ver pista</button><button class="btn small hidden" id="retryCase" type="button">Reintentar</button></div>
+            <div class="feedback" id="caseFeedback" role="status" aria-live="polite">Selecciona una alternativa. La respuesta debe respetar la naturaleza de cada entrada.</div>
+          </div>
+        </div>
+        <h3>Ventajas y límites</h3>
+        <div class="two-col">
+          <ul class="concept-list"><li><strong>Procesamiento reproducible</strong>Las reglas pueden ejecutarse sobre símbolos bien definidos.</li><li><strong>Almacenamiento y transmisión</strong>Los datos pueden copiarse, registrarse y enviarse con estructuras conocidas.</li><li><strong>Detección de errores</strong>Puede incorporarse redundancia para detectar alteraciones.</li></ul>
+          <ul class="concept-list"><li><strong>No existe inmunidad absoluta</strong>Ruido, temporización y compatibilidad eléctrica aún importan.</li><li><strong>Representación finita</strong>Una descripción digital tiene resolución y alcance definidos.</li><li><strong>Conversión necesaria</strong>Muchas variables del mundo físico requieren interfaz antes del procesamiento digital.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="comprobar" data-step="6" aria-labelledby="comprobar-title">
+      <div class="band">
+        <div class="section-head"><div class="section-code">VERIFICA</div><div><h2 id="comprobar-title">Comprobación integradora</h2><p class="lead">Responde las cinco preguntas. Si fallas, recibirás una explicación y podrás intentarlo otra vez.</p></div></div>
+        <form class="quiz" id="finalQuiz"></form>
+        <div class="action-row"><button class="btn" id="gradeQuiz" type="button">Calificar</button><button class="btn small hidden" id="retryQuiz" type="button">Nuevo intento</button></div>
+        <div class="feedback" id="quizFeedback" role="status" aria-live="polite">Tu resultado aparecerá aquí.</div>
+        <h3>Reflexión de cierre</h3>
+        <label for="reflection">En un enlace o equipo de telecomunicaciones que conozcas, identifica una magnitud física, su representación y la decisión que toma el sistema.</label>
+        <textarea id="reflection" placeholder="Ejemplo: magnitud → representación → decisión"></textarea>
+        <div class="action-row"><button class="btn small" id="saveReflection" type="button">Guardar reflexión</button><button class="btn small" id="clearReflection" type="button">Borrar</button></div>
+        <div class="feedback" id="reflectionFeedback" role="status" aria-live="polite">La reflexión se guarda únicamente en este navegador.</div>
+      </div>
+    </section>
+
+    <section aria-labelledby="sources-title">
+      <div class="band">
+        <div class="section-head"><div class="section-code">FUENTES</div><div><h2 id="sources-title">Referencias y trazabilidad</h2><p class="lead">El sílabo determina el alcance. Las fuentes siguientes fundamentan las explicaciones técnicas y los ejemplos.</p></div></div>
+        <ol class="reference-list">
+          <li>Tocci, R. J., Widmer, N. S. y Moss, G. L. <em>Sistemas digitales. Principios y aplicaciones</em>, 11.ª ed., Pearson Educación, 2017, ISBN electrónico 9786073241496. <a href="https://www.pearsoneducacion.net/mexico/tienda-online/sistemas-digitales-principios-y-aplicaciones-11ed-ebook" target="_blank" rel="noopener">Ficha editorial</a>.</li>
+          <li>Texas Instruments. <em>Logic Guide</em>, revisión AC, noviembre de 2025. <a href="https://www.ti.com/lit/sg/sdyu001ac/sdyu001ac.pdf" target="_blank" rel="noopener">Documento técnico</a>.</li>
+          <li>Analog Devices. <em>A Beginner's Guide to Digital Signal Processing</em>. <a href="https://www.analog.com/en/lp/001/beginners-guide-to-dsp.html" target="_blank" rel="noopener">Guía técnica</a>.</li>
+          <li>Unión Internacional de Telecomunicaciones. <em>Handbook Digital Radio Relay Systems</em>, capítulo 2. <a href="https://www.itu.int/dms_pub/itu-r/opb/hdb/R-HDB-24-1996-PDF-E.pdf" target="_blank" rel="noopener">Documento institucional</a>.</li>
+        </ol>
+        <p><strong>Límite:</strong> el ejemplo LVTTL es didáctico y no sustituye la hoja de datos del dispositivo real. El muestreo, la cuantización, los códigos binarios y las puertas lógicas se desarrollan en temas posteriores del sílabo.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="band"><span>Sistemas Digitales · Aula interactiva</span><span>1.1 Fundamentos de los sistemas digitales</span></div></footer>
+
+  <script>
+    "use strict";
+    const $ = (s, root = document) => root.querySelector(s);
+    const $$ = (s, root = document) => [...root.querySelectorAll(s)];
+    const completed = new Set(JSON.parse(localStorage.getItem("miai11-progress") || "[]"));
+    const progress = $("#courseProgress");
+    const progressText = $("#progressText");
+    function markStep(n) {
+      completed.add(n); localStorage.setItem("miai11-progress", JSON.stringify([...completed]));
+      progress.value = completed.size; progressText.textContent = Math.round(completed.size / 6 * 100) + "%";
+    }
+    completed.forEach(() => {}); progress.value = completed.size; progressText.textContent = Math.round(completed.size / 6 * 100) + "%";
+    const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting && e.target.dataset.step) markStep(Number(e.target.dataset.step)); }), { threshold: .38 });
+    $$('[data-step]').forEach(s => observer.observe(s));
+
+    // Oscilloscope visual
+    const canvas = $("#scopeCanvas"), ctx = canvas.getContext("2d");
+    let scopeRunning = !matchMedia("(prefers-reduced-motion: reduce)").matches, phase = 0;
+    function drawScope() {
+      const w = canvas.width, h = canvas.height; ctx.clearRect(0,0,w,h); ctx.fillStyle="#07141a"; ctx.fillRect(0,0,w,h);
+      ctx.strokeStyle="#17323e"; ctx.lineWidth=1;
+      for(let x=0;x<=w;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();}
+      for(let y=0;y<=h;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+      ctx.font="18px system-ui"; ctx.fillStyle="#9bb4bd"; ctx.fillText("ANALÓGICA",24,35); ctx.fillText("DIGITAL",24,h/2+35);
+      ctx.strokeStyle="#66d4e6"; ctx.lineWidth=4; ctx.beginPath();
+      for(let x=0;x<w;x++){const y=h*.27 + Math.sin(x*.022+phase)*58 + Math.sin(x*.007+phase*.35)*18; x?ctx.lineTo(x,y):ctx.moveTo(x,y);} ctx.stroke();
+      ctx.strokeStyle="#7ce6d2"; ctx.beginPath(); let yHigh=h*.62,yLow=h*.86, y=yLow; ctx.moveTo(0,y);
+      const step=95; for(let x=0;x<w;x+=step){const bit=((Math.floor(x/step)+Math.floor(phase/1.2))%3)!==0; const next=bit?yHigh:yLow; ctx.lineTo(x,next); ctx.lineTo(Math.min(x+step,w),next); y=next;} ctx.stroke();
+      if(scopeRunning){phase+=.025; requestAnimationFrame(drawScope);}
+    }
+    drawScope();
+    $("#pauseScope").addEventListener("click", e => { scopeRunning=!scopeRunning; e.currentTarget.textContent=scopeRunning?"Pausar señal":"Reanudar señal"; if(scopeRunning) requestAnimationFrame(drawScope); });
+
+    // Classification activity
+    const scenarios = [
+      ["Tensión instantánea entregada por un micrófono", "a", "La magnitud puede variar continuamente dentro de su intervalo."],
+      ["Estado abierto o cerrado de una puerta", "d", "Solo se distinguen dos alternativas definidas."],
+      ["Valor indicado por un termómetro de mercurio", "a", "La columna representa una variación continua de temperatura."],
+      ["Secuencia de bits almacenada en una memoria", "d", "La información se expresa con símbolos discretos."],
+      ["Potencia recibida antes de ser medida por un receptor", "a", "Es una magnitud física continua, aunque luego pueda digitalizarse."],
+      ["Código de alarma activa o inactiva", "d", "La convención usa dos estados separados."]
+    ];
+    const list = $("#scenarioList");
+    scenarios.forEach((s,i)=>{const row=document.createElement("div");row.className="scenario";row.innerHTML=`<span>${i+1}. ${s[0]}</span><div class="choice-group"><label><input type="radio" name="s${i}" value="a"> Analógica</label><label><input type="radio" name="s${i}" value="d"> Digital</label></div>`;list.append(row);});
+    let classifyAttempts=0;
+    $("#checkClassify").addEventListener("click",()=>{
+      const answers=scenarios.map((_,i)=>$(`input[name="s${i}"]:checked`)?.value); const fb=$("#classifyFeedback");
+      if(answers.some(v=>!v)){fb.className="feedback warn";fb.textContent="Faltan casos. Pista inicial: pregunta si la representación admite un continuo de valores o un conjunto discreto.";return;}
+      classifyAttempts++; const wrong=answers.map((v,i)=>v===scenarios[i][1]?null:i).filter(v=>v!==null);
+      if(!wrong.length){fb.className="feedback success";fb.textContent="Bien resuelto. Separaste la naturaleza de la magnitud de la forma en que un sistema puede representarla. Una magnitud analógica también puede digitalizarse después.";$("#hintClassify").classList.add("hidden");$("#retryClassify").classList.add("hidden");}
+      else {fb.className="feedback error";fb.textContent=`Revisa ${wrong.length} caso(s): ${wrong.map(i=>i+1).join(", ")}. Error frecuente: llamar digital a cualquier lectura mostrada en una pantalla o a cualquier equipo electrónico.`;$("#hintClassify").classList.remove("hidden");$("#retryClassify").classList.remove("hidden");}
+    });
+    $("#hintClassify").addEventListener("click",()=>{$("#classifyFeedback").className="feedback warn";$("#classifyFeedback").textContent="Pista: puerta y alarma ya tienen alternativas discretas. Micrófono, mercurio y potencia son magnitudes continuas antes de cualquier conversión.";});
+    $("#retryClassify").addEventListener("click",()=>{$("#classifyFeedback").className="feedback";$("#classifyFeedback").textContent="Ajusta solo los casos dudosos y vuelve a comprobar.";});
+
+    // Voltage explorer
+    const slider=$("#voltageSlider"), needle=$("#needle");
+    function updateVoltage(){const v=Number(slider.value);$("#voltageValue").textContent=v.toFixed(2);needle.style.bottom=(v/3.3*100)+"%";const state=v<=.8?"Estado 0 garantizado":v>=2?"Estado 1 garantizado":"Zona no garantizada";$("#logicState").textContent=state;}
+    slider.addEventListener("input",updateVoltage); updateVoltage();
+    $("#checkVoltage").addEventListener("click",()=>{const a=$('input[name="predictVoltage"]:checked')?.value,fb=$("#voltageFeedback");if(!a){fb.className="feedback warn";fb.textContent="Selecciona una predicción.";return;}if(a==="x"){fb.className="feedback success";fb.textContent="Correcto. 1,20 V está entre VIL(max)=0,8 V y VIH(min)=2,0 V; el fabricante no garantiza que se interprete como 0 o 1. Lleva el control a 1,20 V para observar la zona.";slider.value="1.2";updateVoltage();$("#hintVoltage").classList.add("hidden");}else{fb.className="feedback error";fb.textContent="Aún no. Un valor intermedio no debe asignarse por cercanía al extremo. Compara 1,20 V con ambos límites garantizados.";$("#hintVoltage").classList.remove("hidden");}});
+    $("#hintVoltage").addEventListener("click",()=>{$("#voltageFeedback").className="feedback warn";$("#voltageFeedback").textContent="Pista: 1,20 V es mayor que 0,8 V y menor que 2,0 V.";});
+
+    // Explorador de combinaciones de bits
+    const countButtons=$$("[data-count-bits]");
+    function showBitCombinations(bits){
+      const total=2**bits;
+      countButtons.forEach(button=>button.setAttribute("aria-pressed",String(Number(button.dataset.countBits)===bits)));
+      $("#selectedBitCount").textContent=`${bits} ${bits===1?"bit":"bits"}`;
+      $("#combinationTotal").textContent=total;
+      const visible=Math.min(total,32);
+      const combinations=Array.from({length:visible},(_,value)=>value.toString(2).padStart(bits,"0"));
+      $("#combinationPreview").textContent=combinations.join("   ")+(total>visible?`   … ${total-visible} combinaciones más`:"");
+    }
+    countButtons.forEach(button=>button.addEventListener("click",()=>showBitCombinations(Number(button.dataset.countBits))));
+    showBitCombinations(3);
+    $("#checkTenBits").addEventListener("click",()=>{
+      const answer=Number($("#tenBitAnswer").value),feedback=$("#tenBitFeedback");
+      if(!$("#tenBitAnswer").value){feedback.className="feedback warn";feedback.textContent="Escribe primero tu respuesta.";return;}
+      if(answer===1024){feedback.className="feedback success";feedback.textContent="Correcto: 2¹⁰ = 1024 combinaciones posibles.";}
+      else{feedback.className="feedback error";feedback.textContent="Revisa el exponente: debes calcular 2 elevado al número de bits, es decir, 2¹⁰.";}
+    });
+
+    // Representation console
+    const sensors=[{name:"Puerta",off:"Cerrada",on:"Abierta"},{name:"Humo",off:"Sin humo",on:"Detectado"},{name:"Energía",off:"Ausente",on:"Presente"},{name:"Ventilación",off:"Detenida",on:"Activa"}];
+    const states=[0,0,0,0], grid=$("#sensorGrid");
+    function renderSensors(){grid.innerHTML="";sensors.forEach((s,i)=>{const b=document.createElement("button");b.type="button";b.className="sensor-toggle";b.setAttribute("aria-pressed",String(Boolean(states[i])));b.innerHTML=`<strong>${s.name}</strong><br>${states[i]?s.on:s.off} · ${states[i]}`;b.addEventListener("click",()=>{states[i]=1-states[i];renderSensors();});grid.append(b);});$("#bitstream").textContent=states.join("");$("#bitMeaning").textContent=sensors.map((s,i)=>states[i]?s.on:s.off).join(" · ");}
+    renderSensors();
+    $("#checkBits").addEventListener("click",()=>{const a=$('input[name="bitAnswer"]:checked')?.value,fb=$("#bitFeedback");if(!a){fb.className="feedback warn";fb.textContent="Selecciona una trama.";return;}if(a==="1011"){fb.className="feedback success";fb.textContent="Correcto: puerta 1, humo 0, energía 1 y ventilación 1. Interpretaste los bits usando orden y convención.";$("#hintBits").classList.add("hidden");$("#retryBits").classList.add("hidden");states.splice(0,4,1,0,1,1);renderSensors();}else{fb.className="feedback error";fb.textContent="La secuencia no corresponde al orden documentado. El error puede estar en cambiar el orden o invertir el significado de 0 y 1.";$("#hintBits").classList.remove("hidden");$("#retryBits").classList.remove("hidden");}});
+    $("#hintBits").addEventListener("click",()=>{$("#bitFeedback").className="feedback warn";$("#bitFeedback").textContent="Pista: escribe un bit por campo en este orden: abierta=1, sin humo=0, presente=1, activa=1.";});
+    $("#retryBits").addEventListener("click",()=>{$("#bitFeedback").className="feedback";$("#bitFeedback").textContent="Revisa la convención y prueba otra vez.";});
+
+    // Professional case
+    $("#checkCase").addEventListener("click",()=>{const a=$('input[name="caseAnswer"]:checked')?.value,fb=$("#caseFeedback");if(!a){fb.className="feedback warn";fb.textContent="Selecciona una alternativa antes de justificar.";return;}if(a==="b"){fb.className="feedback success";fb.textContent="Decisión adecuada. La puerta ya es discreta; la temperatura es continua y requiere una interfaz de conversión antes del procesamiento digital. El detalle de esa conversión pertenece al tema 2.2.";$("#hintCase").classList.add("hidden");$("#retryCase").classList.add("hidden");}else{fb.className="feedback error";fb.textContent="La alternativa ignora la naturaleza de una de las entradas. Un sistema puede integrar fuentes analógicas y digitales, pero debe representarlas de forma compatible con el procesamiento.";$("#hintCase").classList.remove("hidden");$("#retryCase").classList.remove("hidden");}});
+    $("#hintCase").addEventListener("click",()=>{$("#caseFeedback").className="feedback warn";$("#caseFeedback").textContent="Pista: una puerta tiene alternativas discretas; la temperatura puede tomar valores intermedios.";});
+    $("#retryCase").addEventListener("click",()=>{$("#caseFeedback").className="feedback";$("#caseFeedback").textContent="Compara las dos entradas y vuelve a decidir.";});
+
+    // Final quiz
+    const quiz=[
+      {q:"¿Qué afirmación distingue mejor una representación digital?",o:["Usa siempre exactamente 5 V","Trabaja con símbolos de un conjunto discreto","No puede representar magnitudes físicas"],a:1,e:"Digital se refiere a estados discretos; el nivel físico y el número de estados dependen del sistema."},
+      {q:"En una entrada LVTTL del ejemplo, ¿qué significa 1,5 V?",o:["Un 0 seguro","Un 1 seguro","Un valor sin interpretación garantizada"],a:2,e:"1,5 V se encuentra entre VIL(max) y VIH(min)."},
+      {q:"¿Qué diferencia hay entre nivel y estado lógico?",o:["El nivel es físico y el estado es una interpretación","Son sinónimos exactos","El estado solo existe en señales analógicas"],a:0,e:"El nivel es una condición física; el circuito la interpreta como estado según sus especificaciones."},
+      {q:"¿De qué depende el significado de 1011 en el panel?",o:["Solo del valor numérico","Del orden y la convención acordada","Del color del cable"],a:1,e:"Sin una regla compartida, la secuencia no tiene significado unívoco."},
+      {q:"¿Cuál es una afirmación técnicamente prudente sobre sistemas digitales?",o:["Son inmunes a todo ruido","Pueden usar umbrales y técnicas de detección, pero conservan límites físicos","Nunca necesitan señales analógicas"],a:1,e:"Los sistemas digitales siguen sujetos a niveles, ruido, tiempo, energía y compatibilidad."}
+    ];
+    const quizForm=$("#finalQuiz");
+    quiz.forEach((item,i)=>{const d=document.createElement("div");d.className="question";d.innerHTML=`<fieldset><legend>${i+1}. ${item.q}</legend>${item.o.map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}"> ${o}</label>`).join("")}<div class="feedback hidden" id="qfb${i}"></div></fieldset>`;quizForm.append(d);});
+    $("#gradeQuiz").addEventListener("click",()=>{let score=0,missing=0;quiz.forEach((item,i)=>{const a=$(`input[name="q${i}"]:checked`)?.value,fb=$(`#qfb${i}`);fb.classList.remove("hidden");if(a===undefined){missing++;fb.className="feedback warn";fb.textContent="Falta responder.";}else if(Number(a)===item.a){score++;fb.className="feedback success";fb.textContent="Correcto. "+item.e;}else{fb.className="feedback error";fb.textContent="Revisa: "+item.e;}});const overall=$("#quizFeedback");if(missing){overall.className="feedback warn";overall.textContent=`Responde las ${missing} pregunta(s) pendiente(s).`;}else{overall.className=score>=4?"feedback success":"feedback warn";overall.innerHTML=`<span class="quiz-score">${score}/5</span> · ${score===5?"Dominio sólido.":score>=4?"Logro esperado; revisa la explicación pendiente.":"Revisa los conceptos señalados y realiza un nuevo intento."}`;$("#retryQuiz").classList.remove("hidden");}});
+    $("#retryQuiz").addEventListener("click",()=>{$$("#finalQuiz input").forEach(i=>i.checked=false);$$('[id^="qfb"]').forEach(e=>e.classList.add("hidden"));$("#quizFeedback").className="feedback";$("#quizFeedback").textContent="Nuevo intento habilitado. Usa las explicaciones anteriores como guía.";});
+
+    // Reflection persistence
+    const reflection=$("#reflection"); reflection.value=localStorage.getItem("miai11-reflection")||"";
+    $("#saveReflection").addEventListener("click",()=>{const value=reflection.value.trim(),fb=$("#reflectionFeedback");if(value.length<20){fb.className="feedback warn";fb.textContent="Amplía la respuesta: identifica magnitud, representación y decisión.";return;}localStorage.setItem("miai11-reflection",value);fb.className="feedback success";fb.textContent="Reflexión guardada en este navegador.";});
+    $("#clearReflection").addEventListener("click",()=>{reflection.value="";localStorage.removeItem("miai11-reflection");$("#reflectionFeedback").className="feedback";$("#reflectionFeedback").textContent="Reflexión borrada.";});
+
+    // Current section in navigation
+    const links=$$("nav a"); const navObserver=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.removeAttribute("aria-current"));const link=links.find(a=>a.getAttribute("href")==="#"+e.target.id);if(link)link.setAttribute("aria-current","location");}}),{rootMargin:"-30% 0px -60%"});
+    $$('main section[id]').forEach(s=>navObserver.observe(s));
+  </script>
+</body>
+</html>
