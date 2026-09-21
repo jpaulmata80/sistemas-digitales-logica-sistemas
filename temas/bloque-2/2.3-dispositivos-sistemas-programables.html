@@ -50,6 +50,12 @@
     .brand { min-width: 180px; }
     .brand strong { display: block; font-size: .95rem; }
     .brand span { color: var(--muted); font-size: .78rem; }
+    .course-home-link {
+      color: var(--cyan-dark); text-decoration: none; white-space: nowrap;
+      padding: .42rem .62rem; border: 1px solid var(--line); border-radius: 4px;
+      font-size: .8rem; font-weight: 750;
+    }
+    .course-home-link:hover { background: var(--soft); }
     nav { display: flex; gap: .25rem; overflow-x: auto; scrollbar-width: thin; flex: 1; }
     nav a {
       color: var(--ink); text-decoration: none; white-space: nowrap;
@@ -373,7 +379,7 @@
   @media(max-width:900px){.timeline-buttons{grid-template-columns:repeat(2,minmax(0,1fr))}.lab-grid{grid-template-columns:1fr 1fr}.lab-grid .led-wrap{grid-column:1/-1}.implementation-flow{grid-template-columns:1fr 1fr}.implementation-step:nth-child(2)::after{display:none}}
   @media(max-width:650px){.course-back{width:100%}.timeline-buttons,.comparison,.era-panel,.lab-grid,.implementation-flow{grid-template-columns:1fr}.lab-grid .led-wrap{grid-column:auto}.implementation-step:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-.9rem;transform:translateX(-50%)}.implementation-step:nth-child(2)::after{display:block}.device-table{font-size:.82rem}.device-table th,.device-table td{padding:.45rem}.author-line{display:grid}}
 </style></head>
-<body><a class="skip-link" href="#inicio">Ir al contenido</a><header><div class="header-inner"><a class="course-back" href="index.html" aria-label="Volver a la página principal de la asignatura">← Asignatura</a><div class="brand"><strong>Sistemas Digitales</strong><span>Bloque 2 · Tema 2.3</span></div><nav aria-label="Secciones del tema"><a href="#inicio">Inicio</a><a href="#evolucion">Evolución</a><a href="#logica">Lógica</a><a href="#dispositivos">Dispositivos</a><a href="#entradas-salidas">E/S</a><a href="#implementacion">Implementación</a><a href="#comprobar">Comprobación</a></nav><div class="progress-wrap"><label for="courseProgress">Progreso <span id="progressText">0%</span></label><progress id="courseProgress" max="7" value="0"></progress></div></div></header>
+<body><a class="skip-link" href="#inicio">Ir al contenido</a><header><div class="header-inner"><a class="course-back" href="index.html" aria-label="Volver a la página principal de la asignatura">← Asignatura</a><div class="brand"><strong>Sistemas Digitales</strong><span>Bloque 2 · Tema 2.3</span></div><a class="course-home-link" href="../../index.html" aria-label="Volver al índice principal de la asignatura">← Asignatura</a><nav aria-label="Secciones del tema"><a href="#inicio">Inicio</a><a href="#evolucion">Evolución</a><a href="#logica">Lógica</a><a href="#dispositivos">Dispositivos</a><a href="#entradas-salidas">E/S</a><a href="#implementacion">Implementación</a><a href="#comprobar">Comprobación</a></nav><div class="progress-wrap"><label for="courseProgress">Progreso <span id="progressText">0%</span></label><progress id="courseProgress" max="7" value="0"></progress></div></div></header>
 <main>
   <section class="hero" id="inicio" data-step="1"><div class="hero-grid"><div><div class="eyebrow">Bloque 2 · Tema 2.3 · Nivel inicial</div><h1>Dispositivos y sistemas digitales programables</h1><p>Comprende cómo la programación permite adaptar el comportamiento de un sistema digital y reconoce cuándo utilizar un microcontrolador, un CPLD o una FPGA.</p><div class="hero-actions"><a class="btn" href="#evolucion">Comenzar</a><button class="btn secondary" id="pauseHero" type="button">Pausar visualización</button></div></div><div class="scope"><canvas id="heroCanvas" width="760" height="400" role="img" aria-label="Entradas conectadas a un dispositivo digital programable que controla una salida"></canvas><div class="scope-status"><span>Entradas digitales</span><span>Procesamiento programable</span><span>Salidas digitales</span></div></div></div></section>
 
