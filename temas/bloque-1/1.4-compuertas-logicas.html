@@ -50,6 +50,12 @@
     .brand { min-width: 180px; }
     .brand strong { display: block; font-size: .95rem; }
     .brand span { color: var(--muted); font-size: .78rem; }
+    .course-home-link {
+      color: var(--cyan-dark); text-decoration: none; white-space: nowrap;
+      padding: .42rem .62rem; border: 1px solid var(--line); border-radius: 4px;
+      font-size: .8rem; font-weight: 750;
+    }
+    .course-home-link:hover { background: var(--soft); }
     nav { display: flex; gap: .25rem; overflow-x: auto; scrollbar-width: thin; flex: 1; }
     nav a {
       color: var(--ink); text-decoration: none; white-space: nowrap;
@@ -297,7 +303,7 @@
     @media(max-width:560px){.gate-gallery{grid-template-columns:1fr}.gate-stage{grid-template-columns:1fr;text-align:center}.logic-lamp{margin:auto}}
 </style></head>
 <body><a class="skip-link" href="#inicio">Ir al contenido</a>
-<header><div class="header-inner"><div class="brand"><strong>Sistemas Digitales</strong><span>Bloque 1 · Tema 1.4</span></div><nav aria-label="Secciones del tema"><a href="#inicio">Inicio</a><a href="#basicas">Básicas</a><a href="#derivadas">Derivadas</a><a href="#circuitos">Circuitos</a><a href="#aplicar">Aplicación</a><a href="#comprobar">Comprobación</a></nav><div class="progress-wrap"><label for="courseProgress">Progreso <span id="progressText">0%</span></label><progress id="courseProgress" max="6" value="0"></progress></div></div></header>
+<header><div class="header-inner"><div class="brand"><strong>Sistemas Digitales</strong><span>Bloque 1 · Tema 1.4</span></div><a class="course-home-link" href="../../index.html" aria-label="Volver al índice principal de la asignatura">← Asignatura</a><nav aria-label="Secciones del tema"><a href="#inicio">Inicio</a><a href="#basicas">Básicas</a><a href="#derivadas">Derivadas</a><a href="#circuitos">Circuitos</a><a href="#aplicar">Aplicación</a><a href="#comprobar">Comprobación</a></nav><div class="progress-wrap"><label for="courseProgress">Progreso <span id="progressText">0%</span></label><progress id="courseProgress" max="6" value="0"></progress></div></div></header>
 <main>
   <section class="hero" id="inicio" data-step="1"><div class="hero-grid"><div><div class="eyebrow">Bloque 1 · Tema 1.4 · Nivel inicial</div><h1>Compuertas lógicas</h1><p>Relaciona las operaciones booleanas con bloques físicos que reciben señales de entrada y producen una salida lógica.</p><div class="hero-actions"><a class="btn" href="#basicas">Comenzar</a><button class="btn secondary" id="pauseScope" type="button">Pausar visualización</button></div></div><div class="scope"><canvas id="scopeCanvas" width="760" height="430" role="img" aria-label="Compuerta AND animada con dos entradas y una salida"></canvas><div class="scope-status"><span>Entradas A y B</span><span>Compuerta AND → salida Y</span></div></div></div></section>
   <section aria-labelledby="orientacion-title"><div class="band"><div class="section-head"><div class="section-code">ORIENTACIÓN</div><div><h2 id="orientacion-title">Cómo trabajar este tema</h2><p class="lead">Relaciona símbolo, expresión y tabla de verdad. Después sigue las señales a través de un circuito formado por varias compuertas.</p></div></div><div class="outcomes"><div class="outcome"><b>Reconocer</b>Símbolos y funciones lógicas.</div><div class="outcome"><b>Predecir</b>La salida para cada combinación de entradas.</div><div class="outcome"><b>Interpretar</b>Compuertas universales y exclusivas.</div><div class="outcome"><b>Seguir</b>La propagación de una señal en un circuito.</div></div><p><strong>Conocimiento previo:</strong> operaciones booleanas AND, OR y NOT, expresiones y tablas de verdad.</p></div></section>
