@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Tema 1.1: Fundamentos de los sistemas digitales. Portada y ruta de aprendizaje"><title>Tema 1.1 | Fundamentos de los sistemas digitales</title><style>
+    :root {
+      --ink: #18212a;
+      --muted: #586775;
+      --line: #cbd5dc;
+      --soft: #f3f6f8;
+      --paper: #ffffff;
+      --cyan: #007c91;
+      --cyan-dark: #005b6a;
+      --green: #16734a;
+      --green-soft: #e8f5ee;
+      --amber: #9a5d00;
+      --amber-soft: #fff3d8;
+      --red: #a13c35;
+      --red-soft: #fdecea;
+      --focus: #005fcc;
+      --max: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 280px;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+    button, input, textarea { font: inherit; }
+    button, input[type="range"], input[type="radio"], input[type="checkbox"] { cursor: pointer; }
+    button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+    .skip-link {
+      position: fixed; left: 1rem; top: -5rem; z-index: 100;
+      padding: .7rem 1rem; background: var(--ink); color: white;
+    }
+    .skip-link:focus { top: 1rem; }
+    header {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(255,255,255,.97); border-bottom: 1px solid var(--line);
+    }
+    .header-inner {
+      max-width: var(--max); margin: 0 auto; min-height: 64px;
+      padding: .55rem 1.25rem; display: flex; gap: 1.25rem; align-items: center;
+    }
+    .brand { min-width: 180px; }
+    .brand strong { display: block; font-size: .95rem; }
+    .brand span { color: var(--muted); font-size: .78rem; }
+    nav { display: flex; gap: .25rem; overflow-x: auto; scrollbar-width: thin; flex: 1; }
+    nav a {
+      color: var(--ink); text-decoration: none; white-space: nowrap;
+      padding: .45rem .65rem; border-bottom: 2px solid transparent; font-size: .86rem;
+    }
+    nav a:hover, nav a[aria-current="location"] { color: var(--cyan-dark); border-color: var(--cyan); }
+    .progress-wrap { width: 150px; }
+    .progress-wrap label { display: block; font-size: .72rem; color: var(--muted); }
+    progress { width: 100%; height: 8px; accent-color: var(--cyan); }
+    main { overflow: hidden; }
+    section { scroll-margin-top: 82px; border-bottom: 1px solid var(--line); }
+    .band { max-width: var(--max); margin: 0 auto; padding: 4.5rem 1.25rem; }
+    .hero { min-height: calc(100svh - 64px); display: grid; align-items: center; background: #10212a; color: white; }
+    .hero-grid { max-width: var(--max); margin: 0 auto; padding: 3.5rem 1.25rem; width: 100%; display: grid; grid-template-columns: .9fr 1.35fr; gap: 3.5rem; align-items: center; }
+    .eyebrow { color: #6ed2e2; font-size: .82rem; font-weight: 750; text-transform: uppercase; letter-spacing: .08em; }
+    h1 { font-size: clamp(2.35rem, 5vw, 4.8rem); line-height: .98; letter-spacing: 0; margin: .65rem 0 1.15rem; max-width: 10ch; }
+    h2 { font-size: clamp(1.75rem, 3.3vw, 2.8rem); line-height: 1.12; letter-spacing: 0; margin: 0 0 .8rem; }
+    h3 { font-size: 1.25rem; letter-spacing: 0; margin: 1.8rem 0 .55rem; }
+    p { max-width: 72ch; }
+    .hero p { color: #d7e5ea; font-size: 1.1rem; }
+    .hero-actions { display: flex; gap: .7rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    .btn {
+      border: 1px solid var(--cyan-dark); background: var(--cyan); color: white;
+      padding: .7rem 1rem; border-radius: 5px; font-weight: 700;
+    }
+    .btn:hover { background: var(--cyan-dark); }
+    .btn.secondary { background: transparent; color: inherit; border-color: currentColor; }
+    .btn.secondary:hover { background: rgba(255,255,255,.1); }
+    .btn.small { padding: .45rem .7rem; font-size: .88rem; }
+    .scope { position: relative; }
+    .scope canvas { width: 100%; height: auto; display: block; background: #07141a; border: 1px solid #3b5965; border-radius: 6px; }
+    .scope-status { display: flex; justify-content: space-between; gap: 1rem; margin-top: .55rem; font-size: .8rem; color: #b8cbd2; }
+    .section-head { display: grid; grid-template-columns: 160px 1fr; gap: 1.5rem; align-items: start; margin-bottom: 2.5rem; }
+    .section-code { color: var(--cyan-dark); font-weight: 800; font-size: .9rem; }
+    .lead { font-size: 1.08rem; color: var(--muted); margin-top: .3rem; }
+    .outcomes { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .outcome { padding: 1.2rem; border-right: 1px solid var(--line); }
+    .outcome:last-child { border-right: 0; }
+    .outcome b { display: block; color: var(--cyan-dark); margin-bottom: .35rem; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+    .hero-grid > *, .two-col > *, .section-head > *, .level-workspace > *, .case-layout > * { min-width: 0; }
+    .concept-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+    .concept-list li { padding: 1rem 0; border-bottom: 1px solid var(--line); }
+    .concept-list strong { display: block; margin-bottom: .25rem; }
+    .activity { margin-top: 2rem; padding: 1.4rem; border: 1px solid var(--line); border-radius: 6px; background: var(--soft); }
+    .activity h3 { margin-top: 0; }
+    .activity-instruction { color: var(--muted); margin-top: 0; }
+    .scenario-list { display: grid; gap: .65rem; margin: 1rem 0; }
+    .scenario { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center; padding: .8rem; background: white; border: 1px solid var(--line); border-radius: 5px; }
+    .choice-group { display: flex; gap: .4rem; }
+    .choice-group label { padding: .35rem .55rem; border: 1px solid var(--line); border-radius: 4px; white-space: nowrap; }
+    .choice-group input { margin-right: .3rem; }
+    .feedback { margin-top: .85rem; padding: .8rem 1rem; border-left: 4px solid var(--cyan); background: white; min-height: 3rem; }
+    .feedback.success { background: var(--green-soft); border-color: var(--green); }
+    .feedback.warn { background: var(--amber-soft); border-color: var(--amber); }
+    .feedback.error { background: var(--red-soft); border-color: var(--red); }
+    .action-row { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: .9rem; }
+    .hidden { display: none !important; }
+    .level-workspace { display: grid; grid-template-columns: 1.3fr .9fr; gap: 2rem; align-items: stretch; }
+    .voltage-panel { background: #10212a; color: white; padding: 1.4rem; border-radius: 6px; }
+    .voltage-readout { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+    .voltage-value { font-size: 2.5rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .meter { height: 260px; display: grid; grid-template-columns: 48px 1fr; gap: 1rem; margin: 1rem 0; }
+    .meter-track { position: relative; border: 1px solid #60808d; background: #0a171d; }
+    .zone { position: absolute; left: 0; right: 0; }
+    .zone.high { top: 0; height: 39.4%; background: rgba(22,115,74,.6); }
+    .zone.undef { top: 39.4%; height: 36.4%; background: rgba(154,93,0,.65); }
+    .zone.low { bottom: 0; height: 24.2%; background: rgba(0,124,145,.65); }
+    .needle { position: absolute; left: -7px; right: -7px; height: 3px; background: white; box-shadow: 0 0 0 1px #07141a; }
+    .meter-labels { display: flex; flex-direction: column; justify-content: space-between; font-size: .78rem; color: #c9d8dd; text-align: right; }
+    input[type="range"] { width: 100%; accent-color: #6ed2e2; }
+    .state-result { font-weight: 800; color: #6ed2e2; }
+    .warning { color: #ffe0a3; font-size: .88rem; }
+    .bit-console { background: #10212a; color: white; padding: 1.4rem; border-radius: 6px; }
+    .formula-box { display: grid; place-items: center; min-height: 160px; margin: 1rem 0; padding: 1.2rem; border-radius: 6px; background: #10212a; color: white; text-align: center; }
+    .formula-box math { font-size: clamp(2.2rem, 6vw, 3.8rem); font-family: "Cambria Math", "STIX Two Math", "Times New Roman", serif; }
+    .formula-box small { color: #c9d8dd; }
+    .bit-picker { display: flex; flex-wrap: wrap; gap: .45rem; margin: .8rem 0; }
+    .bit-picker button[aria-pressed="true"] { background: var(--green); border-color: var(--green); }
+    .combination-total { color: var(--cyan-dark); font-size: 2rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .combination-preview { max-height: 150px; margin-top: .8rem; padding: .75rem; overflow: auto; border: 1px solid var(--line); border-radius: 5px; background: white; font: 700 .88rem/1.7 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+    .short-answer { width: min(100%, 250px); min-height: 42px; padding: .55rem .7rem; border: 1px solid var(--line); border-radius: 5px; }
+    .sensor-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .65rem; margin: 1rem 0; }
+    .sensor-toggle { border: 1px solid #56717c; background: #172f3a; color: white; padding: .8rem .45rem; border-radius: 5px; min-height: 86px; }
+    .sensor-toggle[aria-pressed="true"] { background: var(--green); border-color: #8bd4af; }
+    .bitstream { font: 800 2.2rem ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .25em; color: #7ce6d2; margin: .7rem 0; }
+    .mapping { color: #c9d8dd; font-size: .85rem; }
+    .case-layout { display: grid; grid-template-columns: .9fr 1.2fr; gap: 2.5rem; }
+    .site-diagram { position: relative; min-height: 360px; background: #e8eff2; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+    .tower { position: absolute; bottom: 35px; left: 50%; width: 8px; height: 230px; background: #475966; transform: translateX(-50%); }
+    .tower::before, .tower::after { content: ""; position: absolute; left: 50%; width: 150px; height: 2px; background: #647986; transform-origin: center; }
+    .tower::before { top: 75px; transform: translateX(-50%) rotate(54deg); }
+    .tower::after { top: 75px; transform: translateX(-50%) rotate(-54deg); }
+    .dish { position: absolute; top: 80px; left: calc(50% + 5px); width: 70px; height: 34px; border: 5px solid var(--cyan); border-left: 0; border-radius: 0 80px 80px 0; transform: rotate(-15deg); }
+    .cabinet { position: absolute; bottom: 35px; left: 12%; width: 100px; height: 128px; background: white; border: 4px solid #475966; }
+    .cabinet::before { content: "EQUIPO"; position: absolute; inset: 10px; border: 1px solid var(--line); padding-top: 36px; text-align: center; font-size: .75rem; color: var(--muted); }
+    .signal-dot { position: absolute; width: 13px; height: 13px; border-radius: 50%; background: var(--cyan); animation: pulse 1.7s infinite; }
+    .dot1 { left: 27%; bottom: 145px; } .dot2 { left: 45%; bottom: 245px; animation-delay: .4s; } .dot3 { right: 18%; top: 86px; animation-delay: .8s; }
+    @keyframes pulse { 50% { transform: scale(1.8); opacity: .35; } }
+    .decision-options { display: grid; gap: .65rem; margin-top: 1rem; }
+    .decision-options label { display: block; padding: .75rem; border: 1px solid var(--line); border-radius: 5px; }
+    .quiz { display: grid; gap: 1.25rem; }
+    .question { padding: 1.1rem; border-top: 1px solid var(--line); }
+    .question:first-child { border-top: 0; }
+    .question fieldset { border: 0; padding: 0; margin: 0; }
+    .question legend { font-weight: 750; margin-bottom: .65rem; }
+    .question label { display: block; padding: .35rem 0; }
+    .quiz-score { font-size: 1.35rem; font-weight: 800; }
+    textarea { width: 100%; min-height: 140px; border: 1px solid var(--line); border-radius: 5px; padding: .8rem; resize: vertical; }
+    .reference-list { padding-left: 1.2rem; }
+    .reference-list li { margin-bottom: .7rem; }
+    a { color: var(--cyan-dark); }
+    footer { background: #10212a; color: #c9d8dd; }
+    footer .band { padding-top: 2rem; padding-bottom: 2rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    @media (max-width: 820px) {
+      section { scroll-margin-top: 130px; }
+      .header-inner { align-items: flex-start; flex-wrap: wrap; gap: .4rem; }
+      .brand { min-width: 130px; }
+      nav { order: 3; flex-basis: 100%; }
+      .progress-wrap { margin-left: auto; }
+      .hero { min-height: auto; }
+      .hero-grid, .two-col, .section-head, .level-workspace, .case-layout { grid-template-columns: 1fr; }
+      .hero-grid { padding-top: 2.6rem; gap: 2rem; }
+      .outcomes { grid-template-columns: 1fr 1fr; }
+      .outcome:nth-child(2) { border-right: 0; }
+      .outcome:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .scenario { grid-template-columns: 1fr; }
+      .sensor-grid { grid-template-columns: 1fr 1fr; }
+      .band { padding-top: 3.2rem; padding-bottom: 3.2rem; }
+    }
+    @media (max-width: 480px) {
+      .progress-wrap { width: 112px; }
+      .outcomes { grid-template-columns: 1fr; }
+      .outcome { border-right: 0; border-bottom: 1px solid var(--line); }
+      .outcome:last-child { border-bottom: 0; }
+      .choice-group { flex-direction: column; align-items: flex-start; }
+      .sensor-grid { grid-template-columns: 1fr; }
+      .bitstream { font-size: 1.7rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .signal-dot { animation: none; }
+    }
+  
+  :root{--color-primary:#e20613;--color-secondary:#dc2137;--color-accent:#af1c32;--color-background:#f7f7f7;--color-surface:#ffffff;--color-text:#242424;--color-border:#e6e6e6;--ink:var(--color-text);--muted:#616161;--line:var(--color-border);--soft:var(--color-background);--paper:var(--color-surface);--cyan:var(--color-primary);--cyan-dark:var(--color-accent);--focus:var(--color-primary)}
+  header{border-top:2px solid var(--color-primary);border-bottom-color:var(--color-border);background:#fff}.header-inner{min-height:50px;padding-top:.45rem;padding-bottom:.45rem}.hero{background:#222427}.hero-grid{grid-template-columns:.92fr 1.08fr}.hero-logo{display:block;width:132px;height:88px;object-fit:contain;object-position:left top;margin-bottom:1rem}.hero .eyebrow{color:#ffb0ba}.hero h1{max-width:11ch}.scope{background:#17191c;border-color:#3f6472}.preview-panel,.case-console{background:#202226}footer{background:#202226;border-top:3px solid var(--color-primary)}
+  .top-return,.course-back{display:inline-flex;align-items:center;justify-content:center;gap:.3rem;padding:.48rem .7rem;border:1px solid var(--color-border);border-radius:5px;background:#fff;color:#242424;font-weight:750;text-decoration:none;white-space:nowrap}.top-return:hover,.course-back:hover{border-color:var(--color-primary);color:var(--color-primary)}footer .course-back{border-color:rgba(255,255,255,.4);background:transparent;color:white}
+  .route-intro{max-width:780px}.route-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1.5rem 0}.route-card{position:relative;min-width:0;padding:1.2rem;border:1px solid var(--line);border-radius:7px;background:white;color:var(--ink);text-align:left;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}.route-card:hover,.route-card[aria-pressed="true"]{transform:translateY(-2px);border-color:var(--cyan);box-shadow:0 9px 24px rgba(15,51,63,.1)}.route-card .route-code{display:inline-block;margin-bottom:.6rem;color:var(--cyan-dark);font-weight:850}.route-card h3{margin:.1rem 0 .5rem}.route-card p{margin:.35rem 0}.status-chip{display:inline-block;margin-top:.75rem;padding:.25rem .55rem;border-radius:999px;background:#eef3f4;color:#536b74;font-size:.76rem;font-weight:800}.status-chip.next{background:#e4f6ee;color:#176247}.preview-panel{display:grid;grid-template-columns:minmax(130px,.32fr) 1fr;gap:1.2rem;padding:1.3rem;border-radius:7px;background:#10212a;color:white}.preview-panel .preview-code{display:block;color:#7ce6d2;font:850 1.2rem ui-monospace,SFMono-Regular,Menlo,monospace}.preview-panel h3{margin:.3rem 0}.preview-label{display:block;margin-top:.8rem;color:#8faab4;font-size:.76rem;font-weight:800;text-transform:uppercase}.preview-panel p{margin:.2rem 0;color:#e0edf0}
+  .learning-path{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.55rem;margin:1.4rem 0}.path-step{position:relative;padding:1rem .55rem;border:1px solid var(--line);border-radius:6px;background:white;text-align:center}.path-step b{display:block;color:var(--cyan-dark)}.path-step:not(:last-child)::after{content:"→";position:absolute;right:-.55rem;top:50%;z-index:2;transform:translateY(-50%);color:var(--cyan-dark);font-weight:900}
+  .case-console{padding:1.35rem;border-radius:7px;background:#10212a;color:white}.case-grid{display:grid;grid-template-columns:minmax(190px,.8fr) repeat(4,minmax(120px,.55fr));gap:.7rem;align-items:stretch}.case-control,.case-metric{min-width:0;padding:.9rem;border:1px solid #506f7b;border-radius:6px}.case-control label{display:block}.case-control input{width:100%}.case-metric{display:grid;place-items:center;text-align:center}.case-metric b{display:block;color:#adc3ca;font-size:.72rem;text-transform:uppercase}.case-metric output{display:block;color:#7ce6d2;font:850 1.15rem ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}.alarm-dot{width:54px;height:54px;margin:.3rem auto;border:6px solid #49626c;border-radius:50%;background:#263a42}.alarm-dot.on{background:#ff715b;border-color:#ffc2b8;box-shadow:0 0 22px #ff715b}
+  .readiness-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;margin:1rem 0}.readiness-item{display:flex;gap:.7rem;align-items:flex-start;padding:1rem;border:1px solid var(--line);border-radius:6px;background:white}.readiness-item input{width:20px;height:20px;flex:0 0 auto}.readiness-summary{display:flex;gap:1rem;align-items:center;padding:1rem;border-radius:6px;background:#eef6f7}.readiness-summary progress{width:min(320px,60%);height:12px}.readiness-summary strong{color:var(--cyan-dark)}.author-line{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem}
+  @media(max-width:900px){.header-inner{align-items:center}.top-return{margin-left:auto}.hero-grid{grid-template-columns:1fr}.case-grid{grid-template-columns:1fr 1fr}.case-control{grid-column:1/-1}.learning-path{grid-template-columns:1fr 1fr}.path-step:nth-child(2)::after{display:none}}
+  @media(max-width:650px){.hero-logo{width:118px;height:auto}.route-grid,.preview-panel,.case-grid,.readiness-list,.learning-path{grid-template-columns:1fr}.case-control{grid-column:auto}.path-step:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-.9rem;transform:translateX(-50%)}.path-step:nth-child(2)::after{display:block}.readiness-summary{align-items:flex-start;flex-direction:column}.readiness-summary progress{width:100%}.author-line{display:grid}}
+</style></head>
+<body><a class="skip-link" href="#inicio">Ir al contenido</a><header><div class="header-inner"><div class="brand"><strong>Sistemas Digitales</strong><span>Bloque 1 · Tema 1.1</span></div><nav aria-label="Secciones del tema"><a href="#inicio">Inicio</a><a href="#ruta">Subtemas</a><a href="#conexion">Recorrido</a><a href="#aplicacion">Aplicación</a><a href="#preparacion">Preparación</a></nav><a class="top-return" href="index.html" aria-label="Volver a la página principal de la asignatura">← Curso</a></div></header>
+<main>
+  <section class="hero" id="inicio"><div class="hero-grid"><div><img class="hero-logo" src="data:image/png;base64,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" width="132" height="88" alt="Universidad Católica de Cuenca"><div class="eyebrow">Bloque 1 · Tema 1.1 · Visión general</div><h1>Fundamentos de los sistemas digitales</h1><p>Comprende el recorrido que transforma fenómenos y señales en estados, datos y aplicaciones digitales utilizadas en telecomunicaciones.</p><div class="hero-actions"><a class="btn" href="#ruta">Comenzar el tema</a><a class="btn secondary" href="#ruta">Ver subtemas</a><button class="btn secondary" id="pauseHero" type="button">Pausar visualización</button></div></div><div class="scope"><canvas id="heroCanvas" width="760" height="350" role="img" aria-label="Recorrido desde una señal hasta una aplicación digital"></canvas><div class="scope-status"><span>Señal</span><span>Nivel lógico</span><span>Representación</span><span>Aplicación</span></div></div></div></section>
+
+  <section aria-labelledby="orientacion-title"><div class="band"><div class="section-head"><div class="section-code">ORIENTACIÓN</div><div><h2 id="orientacion-title">Propósito del tema</h2><p class="lead route-intro">Este tema proporciona el lenguaje básico para estudiar sistemas numéricos, álgebra booleana, circuitos digitales, memoria y dispositivos programables.</p></div></div><div class="outcomes"><div class="outcome"><b>Distinguir</b>Sistemas analógicos y digitales.</div><div class="outcome"><b>Interpretar</b>Niveles y estados lógicos.</div><div class="outcome"><b>Relacionar</b>Bits, códigos e información.</div><div class="outcome"><b>Reconocer</b>Aplicaciones digitales actuales.</div></div><p><strong>Resultado de aprendizaje relacionado:</strong> diseñar circuitos combinacionales y secuenciales con base en sistemas numéricos y códigos binarios, usando álgebra booleana y puertas lógicas, y familiarizarse con dispositivos lógicos programables.</p></div></section>
+
+  <section id="ruta" aria-labelledby="ruta-title"><div class="band"><div class="section-head"><div class="section-code">RUTA 1.1</div><div><h2 id="ruta-title">Cuatro subtemas, una progresión</h2><p class="lead">Abre cada subtema y avanza desde la naturaleza de las señales hasta su integración en aplicaciones digitales.</p></div></div><div class="route-grid"><a class="route-card" href="tema-1-1-1-sistemas-analogicos-digitales.html"><span class="route-code">1.1.1</span><h3>Sistemas analógicos y digitales</h3><p>Formas continuas y discretas de representar fenómenos e información.</p><span class="status-chip next">Disponible · Abrir subtema →</span></a><a class="route-card" href="tema-1-1-2-niveles-estados-logicos.html"><span class="route-code">1.1.2</span><h3>Niveles y estados lógicos</h3><p>Relación entre condiciones eléctricas reales y valores lógicos.</p><span class="status-chip next">Disponible · Abrir subtema →</span></a><a class="route-card" href="tema-1-1-3-representacion-digital-informacion.html"><span class="route-code">1.1.3</span><h3>Representación digital de la información</h3><p>Uso de bits y códigos para representar estados y datos.</p><span class="status-chip next">Disponible · Abrir subtema →</span></a><a class="route-card" href="tema-1-1-4-aplicaciones-sistemas-digitales.html"><span class="route-code">1.1.4</span><h3>Aplicaciones de los sistemas digitales</h3><p>Integración de los fundamentos en soluciones reales de ingeniería.</p><span class="status-chip next">Disponible · Abrir subtema →</span></a></div><div class="preview-panel" aria-live="polite"><div><span class="preview-code" id="previewCode">1.1.1</span><h3 id="previewTitle">Sistemas analógicos y digitales</h3></div><div><span class="preview-label">Pregunta guía</span><p id="previewQuestion">¿Cómo se diferencia una variación continua de una representación discreta?</p><span class="preview-label">Conexión</span><p id="previewConnection">Base para comprender sensores, conversión y procesamiento digital.</p></div></div><p><strong>Estado de los accesos:</strong> los cuatro subtemas del Tema 1.1 están disponibles.</p></div></section>
+
+  <section id="conexion" aria-labelledby="conexion-title"><div class="band"><div class="section-head"><div class="section-code">MAPA</div><div><h2 id="conexion-title">Cómo se conectan los subtemas</h2><p class="lead">La secuencia parte del fenómeno físico y termina en una solución digital con utilidad profesional.</p></div></div><div class="learning-path"><div class="path-step"><b>1. Señal</b>Reconocer cómo varía</div><div class="path-step"><b>2. Nivel</b>Interpretar su estado</div><div class="path-step"><b>3. Código</b>Representar información</div><div class="path-step"><b>4. Sistema</b>Procesar y actuar</div></div><div class="two-col"><div><h3>Por qué seguir el orden</h3><p>Un bit no aparece aislado: primero existe una condición física, después se interpreta como estado lógico y finalmente adquiere significado dentro de una representación.</p></div><div><h3>Qué evitar</h3><p>No debe confundirse la magnitud física con el dato, ni asumir que digital significa exacto o que analógico significa obsoleto. Cada representación responde a una necesidad.</p></div></div></div></section>
+
+  <section id="aplicacion" aria-labelledby="aplicacion-title"><div class="band"><div class="section-head"><div class="section-code">APLICACIÓN INICIAL</div><div><h2 id="aplicacion-title">Del sensor a una alerta digital</h2><p class="lead">Explora una cadena simplificada que anticipa los cuatro subtemas sin reemplazar su desarrollo.</p></div></div><div class="case-console"><div class="case-grid"><div class="case-control"><label for="temperature">Temperatura del gabinete: <output id="temperatureValue">45 °C</output></label><input id="temperature" type="range" min="0" max="100" value="45"></div><div class="case-metric"><div><b>Señal analógica</b><output id="voltageValue">1.49 V</output></div></div><div class="case-metric"><div><b>Estado lógico</b><output id="stateValue">0</output></div></div><div class="case-metric"><div><b>Representación</b><output id="messageValue">NORMAL</output></div></div><div class="case-metric"><div><b>Aplicación</b><div class="alarm-dot" id="alarmIndicator" role="img" aria-label="Indicador de alerta"></div></div></div></div></div><p>En este modelo introductorio, el estado cambia a 1 cuando la temperatura alcanza 60 °C. Los subtemas explicarán qué representa cada etapa y qué simplificaciones contiene este ejemplo.</p></div></section>
+
+  <section id="preparacion" aria-labelledby="preparacion-title"><div class="band"><div class="section-head"><div class="section-code">DIAGNÓSTICO</div><div><h2 id="preparacion-title">¿Con qué base comienzas?</h2><p class="lead">Marca únicamente lo que podrías explicar con tus propias palabras. No es una evaluación y puedes modificarlo después.</p></div></div><div class="readiness-list"><label class="readiness-item"><input type="checkbox" data-readiness><span>Puedo dar un ejemplo de una señal analógica y otro de una señal digital.</span></label><label class="readiness-item"><input type="checkbox" data-readiness><span>Comprendo que un estado lógico y un voltaje físico no son exactamente lo mismo.</span></label><label class="readiness-item"><input type="checkbox" data-readiness><span>Puedo explicar por qué se utilizan bits para representar información.</span></label><label class="readiness-item"><input type="checkbox" data-readiness><span>Reconozco una aplicación digital dentro de un sistema de telecomunicaciones.</span></label></div><div class="readiness-summary"><strong id="readinessText">0/4</strong><progress id="readinessProgress" max="4" value="0" aria-label="Progreso del diagnóstico"></progress><span id="readinessFeedback">Empieza por 1.1.1 y construye la base paso a paso.</span></div></div></section>
+
+  <section aria-labelledby="sources-title"><div class="band"><div class="section-head"><div class="section-code">REFERENCIAS</div><div><h2 id="sources-title">Fuentes y alcance</h2><p class="lead">La portada organiza el recorrido. Las explicaciones, actividades y referencias específicas se desarrollarán dentro de cada subtema.</p></div></div><ol class="reference-list"><li>Tocci, R. J., Widmer, N. S. y Moss, G. L. <em>Sistemas digitales. Principios y aplicaciones</em>.</li><li>Floyd, T. L. <em>Fundamentos de sistemas digitales</em>.</li><li>Mano, M. M. y Ciletti, M. D. <em>Diseño digital</em>.</li></ol></div></section>
+</main><footer><div class="band author-line"><span>Jean Paul Mata Quevedo · UCACUE · © 2026</span><span>1.1 Fundamentos de los sistemas digitales</span><a class="course-back" href="index.html">← Curso</a></div></footer><script>"use strict";
+
+const $=(selector,root=document)=>root.querySelector(selector);
+const $$=(selector,root=document)=>[...root.querySelectorAll(selector)];
+
+// Visual de apertura: una magnitud continua se observa, interpreta y representa.
+const canvas=$("#heroCanvas"),ctx=canvas.getContext("2d");
+let running=!matchMedia("(prefers-reduced-motion: reduce)").matches,phase=0,frame=null;
+function box(x,y,w,h,title,subtitle,active){ctx.beginPath();ctx.roundRect(x,y,w,h,9);ctx.fillStyle=active?"#342126":"#202327";ctx.fill();ctx.strokeStyle=active?"#e20613":"#3f6472";ctx.lineWidth=2;ctx.stroke();ctx.fillStyle="#ffffff";ctx.font="800 17px system-ui";ctx.textAlign="center";ctx.fillText(title,x+w/2,y+38);ctx.fillStyle="#c7d7dd";ctx.font="600 12px system-ui";ctx.fillText(subtitle,x+w/2,y+64);}
+function drawHero(){
+  const w=canvas.width,h=canvas.height;ctx.fillStyle="#17191c";ctx.fillRect(0,0,w,h);ctx.strokeStyle="#30353a";ctx.lineWidth=1;
+  for(let x=0;x<=w;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();}for(let y=0;y<=h;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+  const stage=Math.floor(phase)%4;
+  const items=[[25,120,155,92,"SEÑAL","analógica o digital"],[210,120,155,92,"NIVEL","estado lógico"],[395,120,155,92,"CÓDIGO","representación"],[580,120,155,92,"SISTEMA","aplicación"]];
+  items.forEach((item,index)=>box(...item,index===stage));
+  ctx.strokeStyle="#e20613";ctx.lineWidth=4;for(let i=0;i<3;i++){const x1=items[i][0]+items[i][2],x2=items[i+1][0];ctx.beginPath();ctx.moveTo(x1,166);ctx.lineTo(x2,166);ctx.stroke();const p=(phase*.52+i*.25)%1;ctx.fillStyle="#ff7a88";ctx.beginPath();ctx.arc(x1+p*(x2-x1),166,6,0,Math.PI*2);ctx.fill();}
+  ctx.fillStyle="#9fb3ba";ctx.font="700 14px system-ui";ctx.textAlign="center";ctx.fillText("OBSERVAR → INTERPRETAR → REPRESENTAR → APLICAR",w/2,282);
+  if(running){phase+=.012;frame=requestAnimationFrame(drawHero);}else frame=null;
+}
+drawHero();
+$("#pauseHero").addEventListener("click",event=>{running=!running;event.currentTarget.textContent=running?"Pausar visualización":"Reanudar visualización";if(running&&frame===null)drawHero();});
+
+// Vista previa de la ruta, sin duplicar el desarrollo de cada subtema.
+const previews={
+  "1.1.1":{title:"Sistemas analógicos y digitales",question:"¿Cómo se diferencia una variación continua de una representación discreta?",connection:"Base para comprender sensores, conversión y procesamiento digital."},
+  "1.1.2":{title:"Niveles y estados lógicos",question:"¿Por qué el estado lógico 1 no significa siempre exactamente 5 V?",connection:"Prepara el análisis de entradas, salidas y compatibilidad eléctrica."},
+  "1.1.3":{title:"Representación digital de la información",question:"¿Cómo representan los bits estados, números, texto y mediciones?",connection:"Conecta los niveles físicos con los datos que procesa el sistema."},
+  "1.1.4":{title:"Aplicaciones de los sistemas digitales",question:"¿Cómo se integran sensores, lógica, memoria y comunicación en una solución real?",connection:"Traslada los fundamentos a sistemas de telecomunicaciones."}
+};
+$$('[data-preview]').forEach(button=>button.addEventListener("click",()=>{const item=previews[button.dataset.preview];$("#previewCode").textContent=button.dataset.preview;$("#previewTitle").textContent=item.title;$("#previewQuestion").textContent=item.question;$("#previewConnection").textContent=item.connection;$$('[data-preview]').forEach(card=>card.setAttribute("aria-pressed",String(card===button)));}));
+
+// Caso de apertura: cadena mínima que anticipa los cuatro subtemas.
+function renderCase(){
+  const temp=Number($("#temperature").value),voltage=temp/100*3.3,state=temp>=60?1:0;
+  $("#temperatureValue").textContent=temp+" °C";$("#voltageValue").textContent=voltage.toFixed(2)+" V";$("#stateValue").textContent=state;$("#messageValue").textContent=state?"ALERTA":"NORMAL";$("#alarmIndicator").classList.toggle("on",Boolean(state));
+}
+$("#temperature").addEventListener("input",renderCase);renderCase();
+
+// Diagnóstico no calificable: ayuda al estudiante a decidir dónde concentrarse.
+const readiness=JSON.parse(localStorage.getItem("sd11-general-readiness")||"[false,false,false,false]");
+const checks=$$("[data-readiness]");
+checks.forEach((check,index)=>{check.checked=Boolean(readiness[index]);check.addEventListener("change",()=>{const state=checks.map(item=>item.checked);localStorage.setItem("sd11-general-readiness",JSON.stringify(state));renderReadiness();});});
+function renderReadiness(){const total=checks.filter(check=>check.checked).length;$("#readinessProgress").value=total;$("#readinessText").textContent=total+"/4";const messages=["Empieza por 1.1.1 y construye la base paso a paso.","Ya identificas un punto de partida; sigue la ruta completa.","Tienes una base parcial; presta atención a los conceptos no marcados.","Buena base inicial; utiliza las actividades para comprobarla.","Diagnóstico completo: avanza y contrasta tus respuestas con la experimentación."];$("#readinessFeedback").textContent=messages[total];}
+renderReadiness();
+</script></body></html>
