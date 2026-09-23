@@ -4,424 +4,174 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Jean Paul Mata Quevedo">
-  <meta name="description" content="Material educativo interactivo de la asignatura Sistemas Digitales: Lógica y Sistemas.">
+  <meta name="copyright" content="Jean Paul Mata Quevedo">
+  <meta name="description" content="Material educativo interactivo de Sistemas Digitales: Lógica y Sistemas.">
+  <meta name="theme-color" content="#E20613">
   <title>Sistemas Digitales: Lógica y Sistemas</title>
-
-  <style>
-    :root{
-      --color-primary:#0f2d3a;
-      --color-secondary:#1f5f7a;
-      --color-accent:#2bb3a3;
-      --color-light:#f4f8fb;
-      --color-card:#ffffff;
-      --color-text:#1f2937;
-      --color-muted:#5f6b7a;
-      --color-border:#d9e2ec;
-      --color-white:#ffffff;
-      --shadow:0 10px 24px rgba(15,45,58,.10);
-      --radius:18px;
-      --radius-sm:12px;
-      --max-width:1200px;
-    }
-
-    *{box-sizing:border-box}
-
-    body{
-      margin:0;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background:linear-gradient(180deg,#eef5f8 0%, #f8fbfd 100%);
-      color:var(--color-text);
-    }
-
-    a{text-decoration:none;color:inherit}
-
-    .container{
-      width:min(var(--max-width), calc(100% - 32px));
-      margin:0 auto;
-    }
-
-    header.hero{
-      background:linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-      color:var(--color-white);
-      padding:42px 0 56px;
-      position:relative;
-      overflow:hidden;
-    }
-
-    header.hero::after{
-      content:"";
-      position:absolute;
-      inset:auto -80px -80px auto;
-      width:260px;
-      height:260px;
-      border-radius:50%;
-      background:rgba(255,255,255,.08);
-    }
-
-    .hero-top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:24px;
-      flex-wrap:wrap;
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:18px;
-      flex-wrap:wrap;
-    }
-
-    .brand-logo{
-      background:rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.22);
-      border-radius:16px;
-      padding:10px 14px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      min-width:110px;
-      min-height:76px;
-      backdrop-filter:blur(4px);
-    }
-
-    .brand-logo img{
-      max-width:95px;
-      height:auto;
-      display:block;
-    }
-
-    .eyebrow{
-      display:inline-block;
-      font-size:.82rem;
-      font-weight:700;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color:#b9f2ea;
-      margin-bottom:10px;
-    }
-
-    h1{
-      margin:.2rem 0 .8rem;
-      font-size:clamp(2rem, 4.6vw, 3.7rem);
-      line-height:1.08;
-    }
-
-    .hero p{
-      max-width:800px;
-      margin:0;
-      font-size:1.03rem;
-      line-height:1.7;
-      color:#e2edf2;
-    }
-
-    .hero-badges{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:22px;
-    }
-
-    .badge{
-      background:rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.18);
-      color:#ffffff;
-      padding:10px 14px;
-      border-radius:999px;
-      font-size:.92rem;
-      font-weight:600;
-    }
-
-    main{
-      padding:38px 0 52px;
-    }
-
-    .intro{
-      margin-bottom:28px;
-      background:var(--color-card);
-      border:1px solid var(--color-border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:24px;
-    }
-
-    .intro h2{
-      margin:0 0 10px;
-      color:var(--color-primary);
-      font-size:1.35rem;
-    }
-
-    .intro p{
-      margin:0;
-      color:var(--color-muted);
-      line-height:1.7;
-    }
-
-    .blocks{
-      display:grid;
-      gap:28px;
-    }
-
-    .block{
-      background:var(--color-card);
-      border:1px solid var(--color-border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-
-    .block-header{
-      background:linear-gradient(90deg, rgba(15,45,58,1) 0%, rgba(31,95,122,1) 100%);
-      color:#fff;
-      padding:18px 22px;
-    }
-
-    .block-header small{
-      display:block;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      font-weight:700;
-      color:#b9f2ea;
-      margin-bottom:6px;
-    }
-
-    .block-header h2{
-      margin:0 0 6px;
-      font-size:1.45rem;
-    }
-
-    .block-header p{
-      margin:0;
-      color:#dfeaf0;
-      line-height:1.6;
-      font-size:.98rem;
-    }
-
-    .topics{
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
-      gap:18px;
-      padding:22px;
-    }
-
-    .topic-card{
-      display:block;
-      background:#ffffff;
-      border:1px solid var(--color-border);
-      border-radius:var(--radius-sm);
-      padding:18px;
-      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-      min-height:170px;
-    }
-
-    .topic-card:hover,
-    .topic-card:focus-visible{
-      transform:translateY(-4px);
-      box-shadow:0 12px 22px rgba(31,95,122,.14);
-      border-color:var(--color-accent);
-      outline:none;
-    }
-
-    .topic-code{
-      display:inline-block;
-      background:#e8f7f4;
-      color:#15796f;
-      font-weight:800;
-      font-size:.84rem;
-      padding:6px 10px;
-      border-radius:999px;
-      margin-bottom:12px;
-    }
-
-    .topic-card h3{
-      margin:0 0 10px;
-      font-size:1.08rem;
-      line-height:1.4;
-      color:var(--color-primary);
-    }
-
-    .topic-card p{
-      margin:0 0 14px;
-      color:var(--color-muted);
-      line-height:1.6;
-      font-size:.95rem;
-    }
-
-    .topic-link{
-      font-weight:700;
-      color:var(--color-secondary);
-      font-size:.94rem;
-    }
-
-    footer{
-      border-top:1px solid var(--color-border);
-      background:#f6fafc;
-      padding:22px 0 34px;
-      color:var(--color-muted);
-      font-size:.95rem;
-    }
-
-    .footer-wrap{
-      display:flex;
-      justify-content:space-between;
-      gap:14px;
-      flex-wrap:wrap;
-    }
-
-    @media (max-width:720px){
-      .hero-top{
-        align-items:flex-start;
-      }
-
-      .topics{
-        grid-template-columns:1fr;
-      }
-
-      .brand{
-        align-items:flex-start;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/curso.css">
 </head>
-<body>
-
-  <header class="hero">
-    <div class="container">
-      <div class="hero-top">
-        <div class="brand">
-          <div class="brand-logo">
-            <!-- Reemplaza logo-ucacue.png por tu archivo real si lo vas a guardar en la raíz -->
-            <img src="logo-ucacue.png" alt="Logo UCACUE">
+<body class="course-home">
+  <header class="site-header">
+    <div class="course-hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <img class="hero-institution-logo hero-institution-logo--home" src="logo-ucacue.png" alt="Universidad Católica de Cuenca">
+          <div class="eyebrow">Lógica · Electrónica · Sistemas digitales</div>
+          <h1>Sistemas Digitales:<br><span>Lógica y Sistemas</span></h1>
+          <p>Un recorrido práctico por representación digital, sistemas numéricos, lógica booleana, circuitos combinacionales y secuenciales, conversión de señales y dispositivos programables.</p>
+          <div class="hero-actions">
+            <a class="primary-action" href="#bloques">Explorar contenidos</a>
+            <span class="hero-summary"><b>2</b> bloques <i></i><b>8</b> temas</span>
           </div>
+        </div>
 
-          <div>
-            <span class="eyebrow">Material educativo interactivo</span>
-            <h1>Sistemas Digitales: Lógica y Sistemas</h1>
-            <p>
-              Espacio principal de acceso a los contenidos de la asignatura.
-              Aquí se organizan los bloques, temas y recursos interactivos
-              para el estudio progresivo de la lógica digital, sistemas combinacionales,
-              secuenciales e integración de soluciones digitales.
-            </p>
-
-            <div class="hero-badges">
-              <span class="badge">Carrera: Telecomunicaciones</span>
-              <span class="badge">Docente: Jean Paul Mata Quevedo</span>
-              <span class="badge">UCACUE</span>
+        <div class="hero-visual" aria-label="Mapa conceptual del curso">
+          <div class="visual-title">Ruta del curso</div>
+          <div class="network-flow">
+            <div class="network-node">
+              <span class="node-number">01</span>
+              <strong>Representar</strong>
+              <small>Bits · códigos · niveles</small>
+            </div>
+            <span class="network-arrow" aria-hidden="true">→</span>
+            <div class="network-node">
+              <span class="node-number">02</span>
+              <strong>Diseñar</strong>
+              <small>Lógica · memoria</small>
+            </div>
+            <span class="network-arrow" aria-hidden="true">→</span>
+            <div class="network-node">
+              <span class="node-number">03</span>
+              <strong>Integrar</strong>
+              <small>ADC · MCU · FPGA</small>
             </div>
           </div>
+          <div class="visual-note">De los fundamentos digitales a la integración de soluciones programables.</div>
         </div>
       </div>
     </div>
   </header>
 
   <main>
-    <div class="container">
+    <section class="course-content wrap" id="bloques">
+      <div class="section-intro">
+        <div>
+          <span class="section-kicker">Contenidos</span>
+          <h2>Ruta de aprendizaje</h2>
+        </div>
+        <p>Selecciona un tema para ingresar a su recurso interactivo y navegar después hacia sus subtemas.</p>
+      </div>
 
-      <section class="intro">
-        <h2>Bienvenido al curso</h2>
-        <p>
-          Selecciona un tema para ingresar a su contenido principal. Cada tema contiene
-          su propia navegación interna hacia los subtemas correspondientes, manteniendo
-          una estructura organizada, secuencial y coherente con el desarrollo de la asignatura.
-        </p>
-      </section>
-
-      <section class="blocks">
-
-        <article class="block">
-          <div class="block-header">
-            <small>Bloque 1</small>
-            <h2>Fundamentos de sistemas digitales y lógica</h2>
-            <p>
-              Introducción a los sistemas digitales, numeración, álgebra booleana y
-              lógica combinacional como base conceptual del curso.
-            </p>
+      <div class="blocks">
+        <article class="block-card">
+          <div class="block-heading">
+            <div class="block-index">01</div>
+            <div>
+              <span class="block-label">Bloque 1</span>
+              <h3>Fundamentos y lógica de los sistemas digitales</h3>
+              <p>Señales digitales, representación binaria, lógica booleana, puertas lógicas y sistemas combinacionales.</p>
+            </div>
           </div>
 
           <div class="topics">
-            <a class="topic-card" href="contenidos/bloque-1/tema-1-1/tema-1-1-fundamentos-sistemas-digitales.html">
-              <span class="topic-code">Tema 1.1</span>
-              <h3>Fundamentos de los sistemas digitales</h3>
-              <p>Conceptos esenciales sobre señales, representación digital e introducción a las aplicaciones.</p>
-              <span class="topic-link">Ingresar al tema →</span>
+            <a class="topic topic--available" href="temas/bloque-1/tema-1-1/tema-1-1-fundamentos-sistemas-digitales.html">
+              <div class="topic-top">
+                <span class="topic-code">Tema 1.1</span>
+                <span class="status status--available">Preparado</span>
+              </div>
+              <strong>Fundamentos de los sistemas digitales</strong>
+              <span class="topic-link">Abrir tema <b aria-hidden="true">→</b></span>
             </a>
 
-            <a class="topic-card" href="contenidos/bloque-1/tema-1-2/tema-1-2-sistemas-numeracion.html">
-              <span class="topic-code">Tema 1.2</span>
-              <h3>Sistemas de numeración</h3>
-              <p>Estudio de decimal, binario, hexadecimal y conversiones básicas usadas en sistemas digitales.</p>
-              <span class="topic-link">Ingresar al tema →</span>
+            <a class="topic topic--available" href="temas/bloque-1/tema-1-2/tema-1-2-sistemas-numeracion.html">
+              <div class="topic-top">
+                <span class="topic-code">Tema 1.2</span>
+                <span class="status status--available">Preparado</span>
+              </div>
+              <strong>Sistemas numéricos y representación binaria</strong>
+              <span class="topic-link">Abrir tema <b aria-hidden="true">→</b></span>
             </a>
 
-            <a class="topic-card" href="contenidos/bloque-1/tema-1-3/tema-1-3-algebra-boole.html">
-              <span class="topic-code">Tema 1.3</span>
-              <h3>Álgebra de Boole</h3>
-              <p>Operaciones lógicas, tablas de verdad y análisis de funciones booleanas básicas.</p>
-              <span class="topic-link">Ingresar al tema →</span>
+            <a class="topic topic--available" href="temas/bloque-1/tema-1-3/tema-1-3-algebra-boole.html">
+              <div class="topic-top">
+                <span class="topic-code">Tema 1.3</span>
+                <span class="status status--available">Preparado</span>
+              </div>
+              <strong>Álgebra booleana y puertas lógicas</strong>
+              <span class="topic-link">Abrir tema <b aria-hidden="true">→</b></span>
             </a>
 
-            <a class="topic-card" href="contenidos/bloque-1/tema-1-4/tema-1-4-compuertas-logicas.html">
-              <span class="topic-code">Tema 1.4</span>
-              <h3>Sistemas combinacionales</h3>
-              <p>Diseño y análisis de circuitos combinacionales, aplicaciones e implementación inicial.</p>
-              <span class="topic-link">Ingresar al tema →</span>
+            <a class="topic topic--available" href="temas/bloque-1/tema-1-4/tema-1-4-compuertas-logicas.html">
+              <div class="topic-top">
+                <span class="topic-code">Tema 1.4</span>
+                <span class="status status--available">Preparado</span>
+              </div>
+              <strong>Sistemas combinacionales</strong>
+              <span class="topic-link">Abrir tema <b aria-hidden="true">→</b></span>
             </a>
           </div>
         </article>
 
-        <article class="block">
-          <div class="block-header">
-            <small>Bloque 2</small>
-            <h2>Memoria, conversión e integración de sistemas digitales</h2>
-            <p>
-              Desarrollo de contenidos relacionados con lógica secuencial, conversión
-              analógica-digital, dispositivos programables e integración aplicada.
-            </p>
+        <article class="block-card">
+          <div class="block-heading">
+            <div class="block-index">02</div>
+            <div>
+              <span class="block-label">Bloque 2</span>
+              <h3>Sistemas digitales aplicados y programables</h3>
+              <p>Memoria y lógica secuencial, conversión analógica-digital, sistemas programables e integración de soluciones digitales.</p>
+            </div>
           </div>
 
           <div class="topics">
-            <a class="topic-card" href="contenidos/bloque-2/tema-2-1/tema-2-1-sistemas-secuenciales-memoria.html">
-              <span class="topic-code">Tema 2.1</span>
-              <h3>Sistemas secuenciales y memoria digital</h3>
-              <p>Diferencias entre lógica combinacional y secuencial, reloj, memoria, flip-flops y registros.</p>
-              <span class="topic-link">Ingresar al tema →</span>
+            <a class="topic topic--available" href="temas/bloque-2/tema-2-1/tema-2-1-sistemas-secuenciales-memoria.html">
+              <div class="topic-top">
+                <span class="topic-code">Tema 2.1</span>
+                <span class="status status--available">Preparado</span>
+              </div>
+              <strong>Sistemas secuenciales y memoria digital</strong>
+              <span class="topic-link">Abrir tema <b aria-hidden="true">→</b></span>
             </a>
 
-            <a class="topic-card" href="contenidos/bloque-2/tema-2-2/tema-2-2-interfaz-analogica-digital.html">
-              <span class="topic-code">Tema 2.2</span>
-              <h3>Interfaz entre señales analógicas y digitales</h3>
-              <p>Muestreo, cuantización, resolución y conversión ADC/DAC en aplicaciones reales.</p>
-              <span class="topic-link">Ingresar al tema →</span>
+            <a class="topic topic--available" href="temas/bloque-2/tema-2-2/tema-2-2-interfaz-analogica-digital.html">
+              <div class="topic-top">
+                <span class="topic-code">Tema 2.2</span>
+                <span class="status status--available">Preparado</span>
+              </div>
+              <strong>Interfaz entre señales analógicas y digitales</strong>
+              <span class="topic-link">Abrir tema <b aria-hidden="true">→</b></span>
             </a>
 
-            <a class="topic-card" href="contenidos/bloque-2/tema-2-3/tema-2-3-dispositivos-sistemas-programables.html">
-              <span class="topic-code">Tema 2.3</span>
-              <h3>Dispositivos y sistemas digitales programables</h3>
-              <p>Microcontroladores, CPLD, FPGA y nociones de implementación de lógica programable.</p>
-              <span class="topic-link">Ingresar al tema →</span>
+            <a class="topic topic--available" href="temas/bloque-2/tema-2-3/tema-2-3-dispositivos-sistemas-programables.html">
+              <div class="topic-top">
+                <span class="topic-code">Tema 2.3</span>
+                <span class="status status--available">Preparado</span>
+              </div>
+              <strong>Dispositivos y sistemas digitales programables</strong>
+              <span class="topic-link">Abrir tema <b aria-hidden="true">→</b></span>
             </a>
 
-            <a class="topic-card" href="contenidos/bloque-2/tema-2-4/tema-2-4-integracion-aplicacion-sistemas-digitales.html">
-              <span class="topic-code">Tema 2.4</span>
-              <h3>Integración y aplicación de sistemas digitales</h3>
-              <p>Lectura de entradas, control de salidas e implementación de soluciones digitales básicas.</p>
-              <span class="topic-link">Ingresar al tema →</span>
+            <a class="topic topic--available" href="temas/bloque-2/tema-2-4/tema-2-4-integracion-aplicacion-sistemas-digitales.html">
+              <div class="topic-top">
+                <span class="topic-code">Tema 2.4</span>
+                <span class="status status--available">Preparado</span>
+              </div>
+              <strong>Integración y aplicación de sistemas digitales</strong>
+              <span class="topic-link">Abrir tema <b aria-hidden="true">→</b></span>
             </a>
           </div>
         </article>
-
-      </section>
-    </div>
+      </div>
+    </section>
   </main>
 
-  <footer>
-    <div class="container footer-wrap">
-      <span>Jean Paul Mata Quevedo · UCACUE · © 2026</span>
-      <span>Sistemas Digitales: Lógica y Sistemas</span>
+  <footer class="course-footer">
+    <div class="wrap footer-inner">
+      <div>
+        <strong>Sistemas Digitales: Lógica y Sistemas</strong>
+        <span>Material educativo universitario</span>
+      </div>
+      <span>© 2026 Jean Paul Mata Quevedo</span>
     </div>
   </footer>
-
 </body>
 </html>
